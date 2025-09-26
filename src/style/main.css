@@ -16,8 +16,26 @@
         height: 100%;
         width: 100%;
     }
+
+    .btn:hover {
+        filter: brightness(0.9);
+        transition: all linear 0.2s;
+    }
 }
 
 @theme {
-    
+    --color-light-background: #FAFAFA;
+    --color-mainRed: #f25255;
+    --color-mainDark: #3e3f46;
+    --color-gray: #808080;
+    --color-lightGray: #d3d3d3;
+
+    --text-csNormal: 16px;
+
+    --spacing-twoSidePadding: 80px;
+    --spacing-topPadding: 40px;
+    --spacing-bottomPadding: 40px;
+
+    --radius-main: 10px;
+    --radius-small: 5px;
 }
