@@ -19,7 +19,18 @@
 
     .btn:hover {
         filter: brightness(0.9);
+        cursor: grab;
         transition: all linear 0.2s;
+    }
+    
+    .btn:active {
+        filter: brightness(0.85);
+        cursor: grabbing;
+        transition: all linear 0.2s;
+    }
+
+    .mainShadow {
+        box-shadow: 0 0 5px #d3d3d3;
     }
 }
 
@@ -30,7 +41,10 @@
     --color-gray: #808080;
     --color-lightGray: #d3d3d3;
 
+    --text-csSmall: 14px;
     --text-csNormal: 16px;
+    --text-csBig: 20px;
+    --text-csLarge: 26px;
 
     --spacing-twoSidePadding: 80px;
     --spacing-topPadding: 40px;
