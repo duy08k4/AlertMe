@@ -1,18 +1,13 @@
-// Import libraries
 import type React from "react";
 import { useRef } from "react";
-
-// Router DOM
+import { motion, type Variants } from "framer-motion";
 import { Link } from "react-router-dom";
+import AlertMe_Text from "../../assets/AlertMe_Text.png";
+import Repoter_img from "../../assets/patterns/reporter.png";
+import Admin_img from "../../assets/patterns/admin.png";
+import Staff_img from "../../assets/patterns/staff.png";
+import Towing from "../../assets/patterns/Towing.png";
 
-// Image
-import AlertMe_Text from "../../assets/AlertMe_Text.png"
-import Repoter_img from "../../assets/patterns/reporter.png"
-import Admin_img from "../../assets/patterns/admin.png"
-import Staff_img from "../../assets/patterns/staff.png"
-import Towing from "../../assets/patterns/Towing.png"
-
-// Types
 type feat = {
     name: string,
     short_des: string,
@@ -30,9 +25,20 @@ type information = {
     path: string
 }
 
-// Main component
+// Define variants outside the component for performance and to avoid re-creation on renders.
+const listContainerVariants: Variants = {
+    hidden: {},
+    visible: {
+        transition: { staggerChildren: 0.2 }
+    }
+};
+
+const listItemVariants: Variants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
+};
+
 const HomePage: React.FC = () => {
-    // Introduction information
     const informationOfSystem = useRef<information[]>([
         {
             target: "Người Dân",
@@ -60,20 +66,17 @@ const HomePage: React.FC = () => {
         },
     ])
 
-    // Feats
     const mainFeats = useRef<feat[]>([
         {
             name: "Gửi báo cáo thời gian thực",
             short_des: "Thực hiện gửi báo cáo sự cố với tọa độ và hình ảnh sự cố giao thông",
             class_icon: "fa-solid fa-map-pin", color: "text-[#f25255]", rgb_color: "bg-[rgba(242,82,85,0.2)]"
         },
-
         {
             name: "Quản lý báo cáo hiệu quả",
             short_des: "Tiếp nhận báo cáo và điều phối nhân viên khắc phục sự cố một cách nhanh chóng",
             class_icon: "fa-solid fa-gear", color: "text-[#f25255]", rgb_color: "bg-[rgba(242,82,85,0.2)]"
         },
-
         {
             name: "Bản đồ trực quan",
             short_des: "Hiển thị sự cố trên bản đồ với màu sắc, biểu tượng phân loại, dễ quan sát và tìm kiếm",
@@ -81,9 +84,14 @@ const HomePage: React.FC = () => {
         }
     ])
 
-    // flex-row-reverse
     return (
-        <div className="h-full w-full">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="h-full w-full"
+        >
             <div className="h-fit w-full flex flex-col items-center justify-center gap-5 py-28 max-md:py-16 text-center">
                 <img src={AlertMe_Text} className="h-[60px] max-md:h-[40px]" />
                 <h1 className="text-black font-semibold text-5xl tracking-wider max-md:text-3xl max-md:px-4">Hệ thống báo cáo sự cố giao thông</h1>
@@ -95,7 +103,6 @@ const HomePage: React.FC = () => {
                         Quản lý hệ thống
                     </Link>
                 </span>
-
                 <span className="mt-10">
                     <img src={Towing} className="h-[300px] max-md:h-[200px]" />
                 </span>
@@ -107,33 +114,34 @@ const HomePage: React.FC = () => {
                         <i className="fa-solid fa-book"></i>
                         Giới thiệu hệ thống
                     </h1>
-
                     <p className="w-[80%] text-csBig text-gray text-center max-lg:w-full max-md:text-base">
                         AlertMe là một hệ thống báo cáo sự cố giao thông theo thời gian thực. Hệ thống được phát triển để tiếp nhận các báo cáo sự cố liên quan đến giao thông với tọa độ và hình ảnh cụ thể.
                         Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến để khắc phục sự cố và phản hồi kết quả về cho quản trị viên.
                     </p>
                 </div>
-
-                <div className="flex flex-col items-center gap-10">
-                    {informationOfSystem.current.map((info, index) => {
-                        return (
-                            <div key={index} className={`w-[55%] flex items-center gap-2.5 max-xl:w-[85%] max-lg:flex-col max-lg:gap-8 ${index % 2 === 1 && "flex-row-reverse"}`}>
-                                <span className="flex-1/3 max-lg:w-full">
-                                    <img src={info.img} className="w-full rounded-main" />
-                                </span>
-
-                                <span className=" flex-2/3 flex flex-col gap-2.5 mainShadow h-fit px-10 py-5 rounded-main max-lg:w-full max-lg:px-6">
-                                    <h3 className="text-black font-semibold text-csLarge">{info.target}</h3>
-                                    <p className="text-gray font-semibold max-lg:text-base">{info.des}</p>
-                                    <Link to="/" className="bg-mainRed text-white text-csNormal font-semibold h-[50px] flex gap-2.5 items-center justify-center px-10 rounded-main mt-5 max-lg:self-center">
-                                        <i className={info.btn_icon_class}></i>
-                                        {info.btn_content}
-                                    </Link>
-                                </span>
-                            </div>
-                        )
-                    })}
-                </div>
+                <motion.div
+                    variants={listContainerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="flex flex-col items-center gap-10"
+                >
+                    {informationOfSystem.current.map((info, index) => (
+                        <motion.div key={index} variants={listItemVariants} className={`w-[55%] flex items-center gap-2.5 max-xl:w-[85%] max-lg:flex-col max-lg:gap-8 ${index % 2 === 1 && "flex-row-reverse"}`}>
+                            <span className="flex-1/3 max-lg:w-full">
+                                <img src={info.img} className="w-full rounded-main" />
+                            </span>
+                            <span className=" flex-2/3 flex flex-col gap-2.5 mainShadow h-fit px-10 py-5 rounded-main max-lg:w-full max-lg:px-6">
+                                <h3 className="text-black font-semibold text-csLarge">{info.target}</h3>
+                                <p className="text-gray font-semibold max-lg:text-base">{info.des}</p>
+                                <Link to={info.path} className="bg-mainRed text-white text-csNormal font-semibold h-[50px] flex gap-2.5 items-center justify-center px-10 rounded-main mt-5 max-lg:self-center">
+                                    <i className={info.btn_icon_class}></i>
+                                    {info.btn_content}
+                                </Link>
+                            </span>
+                        </motion.div>
+                    ))}
+                </motion.div>
             </div>
 
             <div className="h-fit w-full flex flex-col gap-10 py-25 max-md:py-16 max-md:px-4">
@@ -144,29 +152,30 @@ const HomePage: React.FC = () => {
                     </h1>
                     <p className="text-csNormal text-gray font-semibold text-center max-md:text-csSmall">Giúp cho việc báo cáo và xử lý sự cố giao thông trở nên dễ dàng hơn</p>
                 </div>
-
-                <div className="flex flex-wrap justify-center gap-10 max-md:gap-8">
-                    {mainFeats.current.map((feat, index) => {
-                        return (
-                            <span key={index} className="mainShadow w-[30%] flex-grow flex flex-col gap-1 px-5 py-5 max-lg:w-[45%] max-sm:w-full rounded-lg">
-                                <span className="flex items-center gap-2.5">
-                                    <span className={`h-[40px] aspect-square flex items-center justify-center ${feat.rgb_color} rounded-full flex-shrink-0`}>
-                                        <i className={`${feat.class_icon} ${feat.color}`}></i>
-                                    </span>
-
-                                    <p className="text-black font-semibold text-csBig">{feat.name}</p>
+                <motion.div
+                    variants={listContainerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    className="flex flex-wrap justify-center gap-10 max-md:gap-8"
+                >
+                    {mainFeats.current.map((feat, index) => (
+                        <motion.span key={index} variants={listItemVariants} className="mainShadow w-[30%] flex-grow flex flex-col gap-1 px-5 py-5 max-lg:w-[45%] max-sm:w-full rounded-lg">
+                            <span className="flex items-center gap-2.5">
+                                <span className={`h-[40px] aspect-square flex items-center justify-center ${feat.rgb_color} rounded-full flex-shrink-0`}>
+                                    <i className={`${feat.class_icon} ${feat.color}`}></i>
                                 </span>
-
-                                <span className="px-5">
-                                    <p className="text-gray font-semibold">{feat.short_des}</p>
-                                </span>
+                                <p className="text-black font-semibold text-csBig">{feat.name}</p>
                             </span>
-                        )
-                    })}
-                </div>
+                            <span className="px-5">
+                                <p className="text-gray font-semibold">{feat.short_des}</p>
+                            </span>
+                        </motion.span>
+                    ))}
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
-export default HomePage
+export default HomePage;

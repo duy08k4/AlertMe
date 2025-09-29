@@ -1,23 +1,34 @@
-// Import libraries
 import type React from "react";
-
-// Router DOM
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import AlertMe_Text from "../../assets/AlertMe_Text.png";
+import AlertMe_Mobile_Mockup from "../../assets/patterns/AlertMe_Mobile_Mockup.png";
 
-// Images
-import AlertMe_Text from "../../assets/AlertMe_Text.png"
-import AlertMe_Mobile_Mockup from "../../assets/patterns/AlertMe_Mobile_Mockup.png"
-
-// Main component
 const DownloadPage: React.FC = () => {
     return (
-        <div className="h-full w-full flex flex-col">
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="h-full w-full flex flex-col"
+        >
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-20 p-6 md:p-12 lg:px-36 lg:pt-20">
-                <div className="flex justify-center">
+                <motion.div
+                    initial={{ opacity: 0, x: -100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="flex justify-center"
+                >
                     <img src={AlertMe_Mobile_Mockup} className="h-[400px] md:h-[500px] lg:h-[600px]" />
-                </div>
+                </motion.div>
 
-                <div className="flex-1 flex flex-col gap-6">
+                <motion.div
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                    className="flex-1 flex flex-col gap-6"
+                >
                     <span className="flex flex-col items-center gap-3 md:flex-row md:items-end md:gap-5">
                         <img src={AlertMe_Text} className="h-[40px] md:h-[60px]" />
                         <p className="text-gray text-lg md:text-xl font-semibold">v1.0.0</p>
@@ -51,10 +62,10 @@ const DownloadPage: React.FC = () => {
                             Truy cập AlertMe Web (Người dân)
                         </Link>
                     </span>
-                </div>
+                </motion.div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 
-export default DownloadPage
+export default DownloadPage;

@@ -1,5 +1,6 @@
 // Import libraries
-import { lazy, useRef } from "react"
+import { lazy, useRef, Suspense } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 // Router DOM
 import { Routes, Route, Link, useLocation } from "react-router-dom"
@@ -18,6 +19,12 @@ type Navigation = {
     path: string,
     name: string
 }
+
+const LoadingIndicator = () => (
+    <div className="w-full h-full flex items-center justify-center">
+        <p className="text-lg font-semibold text-gray-500">Đang tải trang...</p>
+    </div>
+);
 
 const LandingLayout = () => {
     // Navigation
@@ -44,12 +51,16 @@ const LandingLayout = () => {
             </div>
 
             <div className="flex-1 grow w-full py-2.5">
-                <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/download" element={<DownloadPage />} />
-                    <Route path="/team" element={<AboutTeam />} />
-                    <Route path="/contact" element={<ContactPage />} />
-                </Routes>
+                <Suspense fallback={<LoadingIndicator />}>
+                    <AnimatePresence mode="wait">
+                        <Routes location={pageLocation} key={pageLocation.pathname}>
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/download" element={<DownloadPage />} />
+                            <Route path="/team" element={<AboutTeam />} />
+                            <Route path="/contact" element={<ContactPage />} />
+                        </Routes>
+                    </AnimatePresence>
+                </Suspense>
             </div>
 
             <div className="flex justify-center border-t border-lightGray py-5">
