@@ -10,6 +10,7 @@ import AlertMe_Logo from "../../assets/AlertMe.png"
 // Pages
 const HomePage = lazy(() => import("../pages/HomePage"))
 const DownloadPage = lazy(() => import("../pages/DownloadPage"))
+const AboutTeam = lazy(() => import("../pages/AboutTeam"))
 
 // Types
 type Navigation = {
@@ -28,8 +29,8 @@ const LandingLayout = () => {
         { path: "/contact", name: "Liên hệ" }
     ])
     return (
-        <div className="relative h-screen w-full flex flex-col px-twoSidePadding max-md:px-4">
-            <div className="sticky top-0 bg-white flex items-center gap-16 flex-nowrap max-lg:flex-wrap max-lg:justify-center max-lg:gap-x-2 max-lg:gap-y-3 py-2.5 group [&>a]:text-csNormal [&>a]:max-lg:text-base [&>a]:max-md:text-[12px] [&>a]:font-semibold [&>a]:text-mainDark [&>a]:hover:text-mainRed [&>a]:p-1.5">
+        <div className="relative min-h-screen w-full flex flex-col px-twoSidePadding max-md:px-4">
+            <div className="sticky top-0 bg-white z-50 flex items-center gap-16 flex-nowrap max-lg:flex-wrap max-lg:justify-center max-lg:gap-x-2 max-lg:gap-y-3 py-2.5 group [&>a]:text-csNormal [&>a]:max-lg:text-base [&>a]:max-md:text-[12px] [&>a]:font-semibold [&>a]:text-mainDark [&>a]:hover:text-mainRed [&>a]:p-1.5">
                 <Link to="/">
                     <img src={AlertMe_Logo} alt="AlertMe" className="h-[50px] max-md:h-[30px]" />
                 </Link>
@@ -45,6 +46,7 @@ const LandingLayout = () => {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/download" element={<DownloadPage />} />
+                    <Route path="/team" element={<AboutTeam />} />
                 </Routes>
             </div>
 
