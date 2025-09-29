@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="h-full w-full bg-white">
       <Routes>
-        <Route path="/" element={<LandingLayout />} />
+        <Route path="/*" element={<LandingLayout />} />
         <Route path="/main" />
       </Routes>
     </div>

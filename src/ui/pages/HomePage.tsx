@@ -165,14 +165,6 @@ const HomePage: React.FC = () => {
                     })}
                 </div>
             </div>
-
-            {/* <div className="h-[300px] bg-mainRed">
-
-            </div> */}
-
-            <div className="flex justify-center border-t border-lightGray py-5">
-                <p className="font-semibold text-mainDark text-center max-md:px-4">© 2025 Nhóm 6. Làm bằng ♥ cho môn Đồ Án GIS.</p>
-            </div>
         </div>
     )
 }
