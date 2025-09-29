@@ -1,6 +1,6 @@
 // Import libraries
 import { lazy, useRef, Suspense } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence } from "framer-motion"
 
 // Router DOM
 import { Routes, Route, Link, useLocation } from "react-router-dom"
