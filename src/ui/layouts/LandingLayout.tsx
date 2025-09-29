@@ -11,6 +11,7 @@ import AlertMe_Logo from "../../assets/AlertMe.png"
 const HomePage = lazy(() => import("../pages/HomePage"))
 const DownloadPage = lazy(() => import("../pages/DownloadPage"))
 const AboutTeam = lazy(() => import("../pages/AboutTeam"))
+const ContactPage = lazy(() => import("../pages/ContactPage"))
 
 // Types
 type Navigation = {
@@ -47,6 +48,7 @@ const LandingLayout = () => {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/download" element={<DownloadPage />} />
                     <Route path="/team" element={<AboutTeam />} />
+                    <Route path="/contact" element={<ContactPage />} />
                 </Routes>
             </div>
 

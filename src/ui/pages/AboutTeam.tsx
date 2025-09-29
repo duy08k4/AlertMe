@@ -19,7 +19,7 @@ interface Member {
 const leadershipTeam: Member[] = [
     {
         name: "Nguyễn Anh Tuấn",
-        studentId: "221660..",
+        studentId: "22166097",
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: adminImage,
@@ -69,10 +69,10 @@ const memberTeam: Member[] = [
         role: "Thành viên",
     },
     {
-        name: "Trâm",
-        studentId: "",
-        className: "",
-        major: "",
+        name: "Dương Bảo Trâm",
+        studentId: "21166168",
+        className: "DH21HM",
+        major: "Hệ thống thông tin",
         imageUrl: memberImage2,
         role: "Thành viên",
     },
