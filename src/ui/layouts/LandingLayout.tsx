@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion"
 
 // Router DOM
 import { Routes, Route, Link, useLocation } from "react-router-dom"
+import { routeConfig } from "../../routes/routeConfig"
 
 // Images
 import AlertMe_Logo from "../../assets/AlertMe.png"
@@ -31,10 +32,10 @@ const LandingLayout = () => {
     const pageLocation = useLocation()
 
     const Navigation = useRef<Navigation[]>([
-        { path: "/", name: "Trang chủ" },
-        { path: "/download", name: "Tải xuống" },
-        { path: "/team", name: "Đội ngũ phát triển" },
-        { path: "/contact", name: "Liên hệ" }
+        { path: routeConfig.landing.root, name: "Trang chủ" },
+        { path: routeConfig.landing.endpoint.download, name: "Tải xuống" },
+        { path: routeConfig.landing.endpoint.team, name: "Đội ngũ phát triển" },
+        { path: routeConfig.landing.endpoint.contact, name: "Liên hệ" }
     ])
     return (
         <div className="relative min-h-screen w-full flex flex-col px-twoSidePadding max-md:px-2.5">

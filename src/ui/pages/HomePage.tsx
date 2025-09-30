@@ -1,13 +1,22 @@
+// Import libraries
 import type React from "react";
 import { useRef } from "react";
+
+// Famer motion
 import { motion, type Variants } from "framer-motion";
+
+// Router DOM
 import { Link } from "react-router-dom";
+import { routeConfig } from "../../routes/routeConfig";
+
+// Images
 import AlertMe_Text from "../../assets/AlertMe_Text.png";
 import Repoter_img from "../../assets/patterns/reporter.png";
 import Admin_img from "../../assets/patterns/admin.png";
 import Staff_img from "../../assets/patterns/staff.png";
 import Towing from "../../assets/patterns/Towing.png";
 
+// Types
 type feat = {
     name: string,
     short_des: string,
@@ -44,7 +53,7 @@ const HomePage: React.FC = () => {
             target: "Người Dân",
             des: "Khi có sự cố giao thông xảy ra, người dân có thể thực hiện gửi một báo cáo sự cố đến quản trị viên hệ thống thông qua ứng dụng điện thoại.",
             img: Repoter_img,
-            btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: "/download"
+            btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: routeConfig.landing.endpoint.download
         },
         {
             target: "Quản Trị Viên",
@@ -53,7 +62,7 @@ const HomePage: React.FC = () => {
                 Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến khắc phục sự cố dựa trên tọa độ được cung cấp trong báo cáo.
             `,
             img: Admin_img,
-            btn_content: "Trang quản lý", btn_icon_class: "far fa-window-restore", path: "/main"
+            btn_content: "Trang quản lý", btn_icon_class: "far fa-window-restore", path: routeConfig.admin.endpoint.assignment
         },
         {
             target: "Nhân Viên Kỹ Thuật",
@@ -62,7 +71,7 @@ const HomePage: React.FC = () => {
                 Sau khi sự cố đã được khắc phục, nhân viên kỹ thuật sẽ phản hồi kết quả về hệ thống.
             `,
             img: Staff_img,
-            btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: "/download"
+            btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: routeConfig.landing.endpoint.download
         },
     ])
 
@@ -98,7 +107,7 @@ const HomePage: React.FC = () => {
                 <p className="text-gray text-csBig max-md:text-base max-md:px-4">Nền tảng giúp người dân báo cáo sự cố giao thông và theo dõi tình hình trực tiếp trên bản đồ.</p>
                 <span className="flex gap-5 items-center mt-10 group [&>a]:text-csNormal [&>a]:font-semibold [&>a]:h-[50px] [&>a]:flex [&>a]:items-center [&>a]:justify-center [&>a]:px-10 [&>a]:rounded-main max-sm:flex-col max-sm:px-4 max-sm:w-full">
                     <Link to="/" className="bg-mainRed text-white max-sm:w-full">Xem bản đồ sự cố</Link>
-                    <Link to="/" className="mainShadow gap-2.5 bg-white max-sm:w-full">
+                    <Link to={routeConfig.admin.root} className="mainShadow gap-2.5 bg-white max-sm:w-full">
                         <i className="far fa-window-restore"></i>
                         Quản lý hệ thống
                     </Link>

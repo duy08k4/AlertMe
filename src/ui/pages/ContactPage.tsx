@@ -64,81 +64,79 @@ const ContactPage: React.FC = () => {
                     >
                         <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-6">Gửi tin nhắn cho chúng tôi</h2>
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                    <div>
-                                        <label htmlFor="first-name" className="block text-sm font-medium text-gray-700 mb-1">
-                                            Họ
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="first-name"
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
-                                            placeholder="Nguyễn Văn"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 mb-1">
-                                            Tên
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="last-name"
-                                            id="last-name"
-                                            required
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
-                                            placeholder="A"
-                                        />
-                                    </div>
-                                </div>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        id="email"
-                                        required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
-                                        placeholder="you@example.com"
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Chủ đề
+                                    <label htmlFor="first-name" className="block text-sm font-medium text-gray-700 mb-1">
+                                        Họ
                                     </label>
                                     <input
                                         type="text"
-                                        name="subject"
-                                        id="subject"
-                                        required
+                                        name="first-name"
                                         className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
-                                        placeholder="Chủ đề mà bạn quan tâm..."
+                                        placeholder="Nguyễn Văn"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                                        Tin nhắn
+                                    <label htmlFor="last-name" className="block text-sm font-medium text-gray-700 mb-1">
+                                        Tên
                                     </label>
-                                    <textarea
-                                        name="message"
-                                        id="message"
-                                        rows={5}
+                                    <input
+                                        type="text"
+                                        name="last-name"
+                                        id="last-name"
                                         required
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255] resize-none"
-                                        placeholder="Nội dung tin nhắn của bạn..."
-                                    ></textarea>
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
+                                        placeholder="A"
+                                    />
                                 </div>
-                                <div>
-                                    <button
-                                        type="submit"
-                                        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md mainShadow text-base font-medium text-white bg-[#f25255] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f25255] transition"
-                                    >
-                                        Gửi đi
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    required
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
+                                    placeholder="you@example.com"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Chủ đề
+                                </label>
+                                <input
+                                    type="text"
+                                    name="subject"
+                                    id="subject"
+                                    required
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255]"
+                                    placeholder="Chủ đề mà bạn quan tâm..."
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                                    Tin nhắn
+                                </label>
+                                <textarea
+                                    name="message"
+                                    id="message"
+                                    rows={5}
+                                    required
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-md mainShadow focus:outline-none focus:ring-0 focus:border-[#f25255] resize-none"
+                                    placeholder="Nội dung tin nhắn của bạn..."
+                                ></textarea>
+                            </div>
+                            <div>
+                                <button
+                                    type="submit"
+                                    className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md mainShadow text-base font-medium text-white bg-[#f25255] hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#f25255] transition"
+                                >
+                                    Gửi đi
+                                </button>
+                            </div>
                         </form>
                     </motion.div>
                 </div>
