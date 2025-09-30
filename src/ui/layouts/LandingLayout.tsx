@@ -3,7 +3,7 @@ import { lazy, useRef, Suspense } from "react"
 import { AnimatePresence } from "framer-motion"
 
 // Router DOM
-import { Routes, Route, Link, useLocation } from "react-router-dom"
+import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom"
 import { routeConfig } from "../../routes/routeConfig"
 
 // Images
@@ -55,10 +55,11 @@ const LandingLayout = () => {
                 <Suspense fallback={<LoadingIndicator />}>
                     <AnimatePresence mode="wait">
                         <Routes location={pageLocation} key={pageLocation.pathname}>
-                            <Route path={routeConfig.landing.endpoint.home} element={<HomePage />} />
-                            <Route path={routeConfig.landing.endpoint.download} element={<DownloadPage />} />
-                            <Route path={routeConfig.landing.endpoint.team} element={<AboutTeam />} />
-                            <Route path={routeConfig.landing.endpoint.contact} element={<ContactPage />} />
+                            <Route index element={<HomePage />} />
+                            <Route path="download" element={<DownloadPage />} />
+                            <Route path="team" element={<AboutTeam />} />
+                            <Route path="contact" element={<ContactPage />} />
+                            <Route path="*" element={<Navigate to={routeConfig.auth.endpoint.not_found} />} />
                         </Routes>
                     </AnimatePresence>
                 </Suspense>

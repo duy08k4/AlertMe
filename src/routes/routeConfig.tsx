@@ -12,7 +12,7 @@ export const routeConfig = {
     admin: {
         root: "/main",
         endpoint: {
-            assignment: "/main",
+            assignment: "main",
             analyst: "/main/analyst",
             user_management: "/main/user-management",
             staff_management: "/main/staff-management"
@@ -21,5 +21,8 @@ export const routeConfig = {
 
     auth: {
         root: "/auth",
+        endpoint: {
+            not_found: "/not-found"
+        }
     }
 }

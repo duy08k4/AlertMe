@@ -1,6 +1,6 @@
 // Import libraries
 import type React from "react"
-import { useRef } from "react"
+import { lazy, useRef } from "react"
 import { ScreenSizeWarningPopup } from "../../hooks/Popup"
 
 // Router DOM
@@ -9,6 +9,13 @@ import { routeConfig } from "../../routes/routeConfig"
 
 // Images
 import AlertMe from "../../assets/AlertMe.png"
+
+// Pages
+const AssignmentPage = lazy(() => import("../pages/AssignmentPage"))
+const AnalystPage = lazy(() => import("../pages/AnalystPage"))
+const UserManagement = lazy(() => import("../pages/UserManagement"))
+const StaffManagement = lazy(() => import("../pages/StaffManagement"))
+const NotFound = lazy(() => import("../pages/NotFound"))
 
 // Types
 type navigationType = {
@@ -60,10 +67,11 @@ const AdminLayout: React.FC = () => {
 
             <div>
                 <Routes>
-                    <Route path={routeConfig.admin.endpoint.assignment} />
-                    <Route path={routeConfig.admin.endpoint.analyst} />
-                    <Route path={routeConfig.admin.endpoint.user_management} />
-                    <Route path={routeConfig.admin.endpoint.staff_management} />
+                    <Route index element={<AssignmentPage />} />
+                    <Route path="analyst" element={<AnalystPage />} />
+                    <Route path="user-management" element={<UserManagement />} />
+                    <Route path="staff-management" element={<StaffManagement />} />
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </div>
