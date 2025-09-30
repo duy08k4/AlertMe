@@ -17,5 +17,9 @@ export const routeConfig = {
             user_management: "/main/user-management",
             staff_management: "/main/staff-management"
         }
+    },
+
+    auth: {
+        root: "/auth",
     }
 }

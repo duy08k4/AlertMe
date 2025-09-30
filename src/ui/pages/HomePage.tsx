@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
                 Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến khắc phục sự cố dựa trên tọa độ được cung cấp trong báo cáo.
             `,
             img: Admin_img,
-            btn_content: "Trang quản lý", btn_icon_class: "far fa-window-restore", path: routeConfig.admin.endpoint.assignment
+            btn_content: "Trang quản lý", btn_icon_class: "far fa-window-restore", path: routeConfig.auth.root
         },
         {
             target: "Nhân Viên Kỹ Thuật",
@@ -107,7 +107,7 @@ const HomePage: React.FC = () => {
                 <p className="text-gray text-csBig max-md:text-base max-md:px-4">Nền tảng giúp người dân báo cáo sự cố giao thông và theo dõi tình hình trực tiếp trên bản đồ.</p>
                 <span className="flex gap-5 items-center mt-10 group [&>a]:text-csNormal [&>a]:font-semibold [&>a]:h-[50px] [&>a]:flex [&>a]:items-center [&>a]:justify-center [&>a]:px-10 [&>a]:rounded-main max-sm:flex-col max-sm:px-4 max-sm:w-full">
                     <Link to="/" className="bg-mainRed text-white max-sm:w-full">Xem bản đồ sự cố</Link>
-                    <Link to={routeConfig.admin.root} className="mainShadow gap-2.5 bg-white max-sm:w-full">
+                    <Link to={routeConfig.auth.root} className="mainShadow gap-2.5 bg-white max-sm:w-full">
                         <i className="far fa-window-restore"></i>
                         Quản lý hệ thống
                     </Link>

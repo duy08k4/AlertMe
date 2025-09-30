@@ -55,10 +55,10 @@ const LandingLayout = () => {
                 <Suspense fallback={<LoadingIndicator />}>
                     <AnimatePresence mode="wait">
                         <Routes location={pageLocation} key={pageLocation.pathname}>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/download" element={<DownloadPage />} />
-                            <Route path="/team" element={<AboutTeam />} />
-                            <Route path="/contact" element={<ContactPage />} />
+                            <Route path={routeConfig.landing.endpoint.home} element={<HomePage />} />
+                            <Route path={routeConfig.landing.endpoint.download} element={<DownloadPage />} />
+                            <Route path={routeConfig.landing.endpoint.team} element={<AboutTeam />} />
+                            <Route path={routeConfig.landing.endpoint.contact} element={<ContactPage />} />
                         </Routes>
                     </AnimatePresence>
                 </Suspense>

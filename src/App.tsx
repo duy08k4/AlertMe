@@ -8,6 +8,7 @@ import { routeConfig } from "./routes/routeConfig"
 // Components
 const LandingLayout = lazy(() => import("./ui/layouts/LandingLayout"))
 const AdminLayout = lazy(() => import("./ui/layouts/AdminLayout"))
+const AdminLogin = lazy(() => import("./ui/pages/AdminLogin"))
 
 // Main component
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path={routeConfig.landing.root + "*"} element={<LandingLayout />} />
         <Route path={routeConfig.admin.root + "*"} element={<AdminLayout />} />
+        <Route path={routeConfig.auth.root} element={<AdminLogin />} />
       </Routes>
     </div>
   )
