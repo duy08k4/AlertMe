@@ -1,6 +1,7 @@
 // Import libraries
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
+import { ScreenSizeWarningPopup } from "../../hooks/Popup";
 
 // Router DOM
 import { Link } from "react-router-dom";
@@ -32,6 +33,7 @@ const AdminLogin: React.FC = () => {
 
     return (
         <div className="relative h-full w-full bg-white p-4 sm:p-6 lg:p-8 overflow-hidden">
+            <ScreenSizeWarningPopup />
             <motion.img
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -51,6 +53,7 @@ const AdminLogin: React.FC = () => {
                     Quay lại
                 </Link>
             </motion.span>
+            
             <div className="absolute z-10 top-0 left-0 h-full w-full flex items-center justify-center">
                 <motion.div
                     variants={containerVariants}

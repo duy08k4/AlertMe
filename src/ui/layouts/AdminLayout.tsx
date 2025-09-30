@@ -1,6 +1,7 @@
 // Import libraries
 import type React from "react"
 import { useRef } from "react"
+import { ScreenSizeWarningPopup } from "../../hooks/Popup"
 
 // Router DOM
 import { Link, Route, Routes, useLocation } from "react-router-dom"
@@ -31,6 +32,7 @@ const AdminLayout: React.FC = () => {
 
     return (
         <div className="relative h-full w-full bg-white">
+            <ScreenSizeWarningPopup />
             <div className="flex items-center gap-20 px-twoSidePadding py-5">
                 <span className="flex items-center gap-2">
                     <img src={AlertMe} className="h-[40px]" />
