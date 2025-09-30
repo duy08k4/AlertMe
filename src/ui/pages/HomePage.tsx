@@ -110,11 +110,11 @@ const HomePage: React.FC = () => {
 
             <div className="h-fit w-full flex flex-col gap-10 py-25 max-md:py-16 max-md:px-4">
                 <div className="flex flex-col items-center gap-5">
-                    <h1 className="text-black font-semibold text-4xl tracking-wider capitalize flex items-center gap-5 max-md:text-3xl max-md:justify-center max-md:flex-wrap">
+                    <h1 className="text-black font-semibold text-4xl tracking-wider capitalize flex items-center gap-5 max-md:text-2xl max-md:justify-center max-md:flex-wrap">
                         <i className="fa-solid fa-book"></i>
                         Giới thiệu hệ thống
                     </h1>
-                    <p className="w-[80%] text-csBig text-gray text-center max-lg:w-full max-md:text-base">
+                    <p className="w-[80%] text-csBig text-gray max-lg:w-full max-md:text-csSmall text-justify">
                         AlertMe là một hệ thống báo cáo sự cố giao thông theo thời gian thực. Hệ thống được phát triển để tiếp nhận các báo cáo sự cố liên quan đến giao thông với tọa độ và hình ảnh cụ thể.
                         Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến để khắc phục sự cố và phản hồi kết quả về cho quản trị viên.
                     </p>
@@ -127,14 +127,14 @@ const HomePage: React.FC = () => {
                     className="flex flex-col items-center gap-10"
                 >
                     {informationOfSystem.current.map((info, index) => (
-                        <motion.div key={index} variants={listItemVariants} className={`w-[55%] flex items-center gap-2.5 max-xl:w-[85%] max-lg:flex-col max-lg:gap-8 ${index % 2 === 1 && "flex-row-reverse"}`}>
+                        <motion.div key={index} variants={listItemVariants} className={`w-[55%] flex items-center gap-2.5 max-xl:w-[100%] max-lg:flex-col max-lg:gap-8 ${index % 2 === 1 && "flex-row-reverse"}`}>
                             <span className="flex-1/3 max-lg:w-full">
                                 <img src={info.img} className="w-full rounded-main" />
                             </span>
                             <span className=" flex-2/3 flex flex-col gap-2.5 mainShadow h-fit px-10 py-5 rounded-main max-lg:w-full max-lg:px-6">
-                                <h3 className="text-black font-semibold text-csLarge">{info.target}</h3>
-                                <p className="text-gray font-semibold max-lg:text-base">{info.des}</p>
-                                <Link to={info.path} className="bg-mainRed text-white text-csNormal font-semibold h-[50px] flex gap-2.5 items-center justify-center px-10 rounded-main mt-5 max-lg:self-center">
+                                <h3 className="text-black font-semibold text-csLarge max-md:text-2xl">{info.target}</h3>
+                                <p className="text-gray text-justify max-lg:text-base max-sm:text-csSmall">{info.des}</p>
+                                <Link to={info.path} className="bg-mainRed text-white text-csNormal font-semibold h-[50px] max-md:h-[40px] flex gap-2.5 items-center justify-center px-10 rounded-main max-md:rounded-small mt-5 max-lg:self-center">
                                     <i className={info.btn_icon_class}></i>
                                     {info.btn_content}
                                 </Link>
@@ -162,13 +162,13 @@ const HomePage: React.FC = () => {
                     {mainFeats.current.map((feat, index) => (
                         <motion.span key={index} variants={listItemVariants} className="mainShadow w-[30%] flex-grow flex flex-col gap-1 px-5 py-5 max-lg:w-[45%] max-sm:w-full rounded-lg">
                             <span className="flex items-center gap-2.5">
-                                <span className={`h-[40px] aspect-square flex items-center justify-center ${feat.rgb_color} rounded-full flex-shrink-0`}>
+                                <span className={`h-[40px] max-md:h-[32px] aspect-square flex items-center justify-center ${feat.rgb_color} rounded-full flex-shrink-0`}>
                                     <i className={`${feat.class_icon} ${feat.color}`}></i>
                                 </span>
-                                <p className="text-black font-semibold text-csBig">{feat.name}</p>
+                                <p className="text-black font-semibold text-csBig max-md:text-base">{feat.name}</p>
                             </span>
                             <span className="px-5">
-                                <p className="text-gray font-semibold">{feat.short_des}</p>
+                                <p className="text-gray font-semibold max-md:text-sm">{feat.short_des}</p>
                             </span>
                         </motion.span>
                     ))}

@@ -128,7 +128,7 @@ const AboutTeam: React.FC = () => {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
-                    className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-4"
+                    className="text-3xl md:text-5xl font-extrabold text-center text-gray-900 mb-4"
                 >
                     Thành Viên Nhóm AlertMe
                 </motion.h1>
@@ -136,7 +136,7 @@ const AboutTeam: React.FC = () => {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="text-lg text-center text-gray-500 mb-12"
+                    className="text-base md:text-lg text-center text-gray-500 mb-12"
                 >
                     Những con người tạo nên sự khác biệt.
                 </motion.p>
@@ -165,7 +165,7 @@ const AboutTeam: React.FC = () => {
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        className="flex flex-nowrap overflow-x-auto gap-8 pb-4"
+                        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-4"
                     >
                         {memberTeam.map((member) => (
                             <motion.div key={member.studentId} variants={cardVariants}>
