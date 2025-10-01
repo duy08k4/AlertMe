@@ -1,9 +1,9 @@
 // Import libraries
 import type React from "react"
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 // Leaflet
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
