@@ -1,6 +1,6 @@
 // Import libraries
 import type React from "react"
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState } from "react";
 
 // Leaflet
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -38,50 +38,8 @@ type funnelType = {
 const AssignmentPage: React.FC = () => {
     // State
     const [isStaff, setIsStaff] = useState<boolean>(false)
-    const [isMap, setIsMap] = useState<boolean>(true)
+    const [isMap, setIsMap] = useState<boolean>(false)
     const [isFunnel, setIsFunnel] = useState<boolean>(false)
-    const [map, setMap] = useState<L.Map | null>(null);
-
-    // Resizing state
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [reportHeight, setReportHeight] = useState(350);
-    const [isResizing, setIsResizing] = useState(false);
-
-    const handleMouseDown = useCallback((e: React.MouseEvent) => {
-        if (!isMap) return;
-        e.preventDefault();
-        setIsResizing(true);
-    }, [isMap]);
-
-    const handleMouseUp = useCallback(() => {
-        setIsResizing(false);
-    }, []);
-
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!isResizing || !containerRef.current) return;
-        const containerRect = containerRef.current.getBoundingClientRect();
-        const newHeight = containerRect.bottom - e.clientY;
-
-        // Constraints
-        if (newHeight > 150 && newHeight < containerRect.height - 200) {
-            setReportHeight(newHeight);
-        }
-    }, [isResizing]);
-
-    useEffect(() => {
-        if (isResizing) {
-            window.addEventListener('mousemove', handleMouseMove);
-            window.addEventListener('mouseup', handleMouseUp);
-        } else {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        }
-
-        return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
-            window.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isResizing, handleMouseMove, handleMouseUp]);
 
     // Table
     const table: tableType[] = [
@@ -147,10 +105,10 @@ const AssignmentPage: React.FC = () => {
                 </div>
             )}
 
-            <div className="h-full flex-1 flex flex-col" ref={containerRef}>
+            <div className="h-full flex-1 flex flex-col">
                 {/* Map */}
                 {isMap && (
-                    <div className="w-full flex-1">
+                    <div className="h-2/3 w-full">
                         <MapContainer
                             center={[10.762622, 106.660172]} // HCM Position
                             zoom={13}
@@ -166,26 +124,14 @@ const AssignmentPage: React.FC = () => {
                 )}
 
                 {/* Report list */}
-                <div 
-                    className="w-full border-t border-t-lightGray px-mainTwoSidePadding flex flex-col relative"
-                    style={{
-                        height: isMap ? `${reportHeight}px` : '100%',
-                        flexShrink: 0
-                    }}
-                >
-                    {isMap && (
-                        <div 
-                            onMouseDown={handleMouseDown}
-                            className="absolute -top-1 left-0 w-full h-2 cursor-row-resize z-10 hover:bg-blue-300"
-                        />
-                    )}
+                <div className="flex-1 h-0 w-full border-t border-t-lightGray px-mainTwoSidePadding flex flex-col">
                     <div className="flex justify-between items-center py-2 border-b border-b-lightGray">
                         <span className="flex items-center gap-1.5">
                             {table.map((snap, index) => {
                                 return (
                                     <button
                                         key={index}
-                                        className="btn mainShadow text-mainDark font-semibold flex items-center gap-1.5 px-2.5 py-1 border-[0.5px] border-lightGray rounded-small"
+                                        className={`btn mainShadow font-semibold ${snap.state ? "bg-mainRed text-white" : "bg-white text-mainDark"} flex items-center gap-1.5 px-2.5 py-1 border-[0.5px] border-lightGray rounded-small`}
                                         onClick={snap.func}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
@@ -204,7 +150,10 @@ const AssignmentPage: React.FC = () => {
                                 <p><b>Số lượng báo cáo:</b> 100</p>
                             </span>
                             <span>
-                                <button className="btn mainShadow text-mainDark font-semibold flex items-center gap-1.5 px-2.5 py-1 border-[0.5px] border-lightGray rounded-small">
+                                <button
+                                    className="btn mainShadow text-mainDark font-semibold flex items-center gap-1.5 px-2.5 py-1 border-[0.5px] border-lightGray rounded-small"
+                                    onClick={() => { setIsFunnel(!isFunnel) }}
+                                >
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
                                         <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
                                     </svg>
@@ -229,33 +178,36 @@ const AssignmentPage: React.FC = () => {
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-7.5 py-2 border-b border-b-lightGray">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
-                            <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
-                        </svg>
+                    {isFunnel && (
+                        <div className="flex items-center gap-7.5 py-2 border-b border-b-lightGray">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                                <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
+                            </svg>
 
-                        <span className="flex items-center gap-2.5">
-                            <p className="text-black text-csSmall font-semibold">Độ nghiêm trọng:</p>
-                            <span className="flex items-center gap-1">
-                                {funnelLevel.map((snap, index) => {
-                                    return (
-                                        <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
-                                    )
-                                })}
+                            <span className="flex items-center gap-2.5">
+                                <p className="text-black text-csSmall font-semibold">Độ nghiêm trọng:</p>
+                                <span className="flex items-center gap-1">
+                                    {funnelLevel.map((snap, index) => {
+                                        return (
+                                            <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
+                                        )
+                                    })}
+                                </span>
                             </span>
-                        </span>
 
-                        <span className="flex items-center gap-2.5">
-                            <p className="text-black text-csSmall font-semibold">Trạng thái:</p>
-                            <span className="flex items-center gap-1">
-                                {funnelState.map((snap, index) => {
-                                    return (
-                                        <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
-                                    )
-                                })}
+                            <span className="flex items-center gap-2.5">
+                                <p className="text-black text-csSmall font-semibold">Trạng thái:</p>
+                                <span className="flex items-center gap-1">
+                                    {funnelState.map((snap, index) => {
+                                        return (
+                                            <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
+                                        )
+                                    })}
+                                </span>
                             </span>
-                        </span>
-                    </div>
+                        </div>
+
+                    )}
 
                     {/* List */}
                     <div className="flex-1 overflow-auto relative">
