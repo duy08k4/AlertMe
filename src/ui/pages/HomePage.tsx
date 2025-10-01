@@ -7,7 +7,7 @@ import { motion, type Variants } from "framer-motion";
 
 // Router DOM
 import { Link } from "react-router-dom";
-import { routeConfig } from "../../routes/routeConfig";
+import { routeConfig } from "../../configs/routeConfig";
 
 // Images
 import AlertMe_Text from "../../assets/AlertMe_Text.png";

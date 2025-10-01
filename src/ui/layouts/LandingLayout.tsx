@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion"
 
 // Router DOM
 import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom"
-import { routeConfig } from "../../routes/routeConfig"
+import { routeConfig } from "../../configs/routeConfig"
 
 // Images
 import AlertMe_Logo from "../../assets/AlertMe.png"

@@ -2,7 +2,7 @@
 import type React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { routeConfig } from "../../routes/routeConfig";
+import { routeConfig } from "../../configs/routeConfig";
 
 // Main component
 const NotFound: React.FC = () => {

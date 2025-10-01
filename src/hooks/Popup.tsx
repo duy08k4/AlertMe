@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { routeConfig } from '../routes/routeConfig';
+import { routeConfig } from '../configs/routeConfig';
 
 const DESKTOP_BREAKPOINT = 1024;
 

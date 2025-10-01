@@ -3,7 +3,7 @@ import { lazy } from "react"
 
 // Router DOM
 import { Routes, Route } from "react-router-dom"
-import { routeConfig } from "./routes/routeConfig"
+import { routeConfig } from "./configs/routeConfig"
 
 // Components
 const LandingLayout = lazy(() => import("./ui/layouts/LandingLayout"))

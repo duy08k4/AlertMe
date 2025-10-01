@@ -5,7 +5,7 @@ import { ScreenSizeWarningPopup } from "../../hooks/Popup"
 
 // Router DOM
 import { Link, Route, Routes, useLocation } from "react-router-dom"
-import { routeConfig } from "../../routes/routeConfig"
+import { routeConfig } from "../../configs/routeConfig"
 
 // Images
 import AlertMe from "../../assets/AlertMe.png"
@@ -38,12 +38,12 @@ const AdminLayout: React.FC = () => {
     ])
 
     return (
-        <div className="relative h-full w-full bg-white">
+        <div className="h-full w-full bg-white flex flex-col">
             <ScreenSizeWarningPopup />
-            <div className="flex items-center gap-20 px-twoSidePadding py-5">
+            <div className="flex items-center gap-20 px-mainTwoSidePadding py-3 border-b border-b-lightGray">
                 <span className="flex items-center gap-2">
                     <img src={AlertMe} className="h-[40px]" />
-                    <h1 className="text-black text-csLarge uppercase font-semibold">Admin</h1>
+                    <h1 className="text-black text-csBig uppercase font-semibold">Admin</h1>
                 </span>
 
                 <span className="flex gap-10">
@@ -52,7 +52,7 @@ const AdminLayout: React.FC = () => {
                             <Link
                                 key={index}
                                 to={nav.path}
-                                className={`btn rounded-small text-black text-csNormal font-semibold flex items-center gap-2.5 px-5 py-2 hover:bg-light-background ${location.pathname === nav.path && "!text-mainRed bg-[rgba(242,82,85,0.2)]"}`}
+                                className={`btn rounded-small text-black text-csSmall font-semibold flex items-center gap-2.5 px-5 py-1.5 hover:bg-light-background ${location.pathname === nav.path && "!text-mainRed bg-[rgba(242,82,85,0.2)]"}`}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d={nav.icon_d} />
@@ -65,7 +65,7 @@ const AdminLayout: React.FC = () => {
                 </span>
             </div>
 
-            <div>
+            <div className="flex-1 h-0">
                 <Routes>
                     <Route index element={<AssignmentPage />} />
                     <Route path="analyst" element={<AnalystPage />} />

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 @layer base {
     * {
@@ -7,7 +8,8 @@
         box-sizing: border-box;
     }
 
-    html, body {
+    html,
+    body {
         height: 100%;
         width: 100%;
     }
@@ -22,7 +24,7 @@
         cursor: grab;
         transition: all linear 0.2s;
     }
-    
+
     .btn:active {
         filter: brightness(0.85);
         cursor: grabbing;
@@ -32,12 +34,21 @@
     .mainShadow {
         box-shadow: 0 0 5px #d3d3d3;
     }
+
+    .csScroll::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .csScroll::-webkit-scrollbar-thumb {
+        background-color: #3e3f46;
+    }
 }
 
 @theme {
     --color-light-background: #FAFAFA;
     --color-mainRed: #f25255;
     --color-mainDark: #3e3f46;
+    --color-lime: #00FF00;
     --color-gray: #808080;
     --color-lightGray: #d3d3d3;
 
@@ -47,6 +58,7 @@
     --text-csLarge: 26px;
 
     --spacing-twoSidePadding: 80px;
+    --spacing-mainTwoSidePadding: 20px;
     --spacing-topPadding: 40px;
     --spacing-bottomPadding: 40px;
 
