@@ -1,6 +1,6 @@
 // Import libraries
 import type React from "react"
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 // Leaflet
 import { MapContainer, TileLayer } from "react-leaflet";
@@ -29,17 +29,17 @@ type tableType = {
     func: () => void
 }
 
-type funnelType = {
-    label: string,
-    color: string
+type incidentType = {
+    name: string,
+    func: (text: string) => void,
+    filter_func: () => void // Need change output type
 }
 
 // Main component
 const AssignmentPage: React.FC = () => {
     // State
-    const [isStaff, setIsStaff] = useState<boolean>(false)
+    const [isStaff, setIsStaff] = useState<boolean>(true)
     const [isMap, setIsMap] = useState<boolean>(false)
-    const [isFunnel, setIsFunnel] = useState<boolean>(false)
 
     // Table
     const table: tableType[] = [
@@ -53,18 +53,66 @@ const AssignmentPage: React.FC = () => {
         }
     ]
 
-    // Funnel
-    const funnelLevel: funnelType[] = [
-        { label: reportConfig.level.low.label, color: reportConfig.level.low.color },
-        { label: reportConfig.level.medium.label, color: reportConfig.level.medium.color },
-        { label: reportConfig.level.high.label, color: reportConfig.level.high.color },
-        { label: reportConfig.level.emergency.label, color: reportConfig.level.emergency.color },
+    // Incident type
+    const [isFilterIncidentType, setIsFilterIncidentType] = useState<boolean>(false)
+    const [incidentTypeData, setIncidentTypeData] = useState<string>()
+
+    const filterIncidentTypeRef = useRef<HTMLSpanElement>(null);
+    const dropdownIncidentTypeRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                filterIncidentTypeRef.current &&
+                !filterIncidentTypeRef.current.contains(event.target as Node) &&
+                dropdownIncidentTypeRef.current &&
+                !dropdownIncidentTypeRef.current.contains(event.target as Node)
+            ) {
+                setIsFilterIncidentType(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isFilterIncidentType]);
+
+    const incidentType: incidentType[] = [
+        { name: "Tuấn tràn RAM", func: (text: string) => { setIncidentTypeData(text) }, filter_func: () => { } },
+        { name: "Tuấn cháy CPU", func: (text: string) => { setIncidentTypeData(text) }, filter_func: () => { } },
+        { name: "Tuấn 1 màn hình", func: (text: string) => { setIncidentTypeData(text) }, filter_func: () => { } },
     ]
 
-    const funnelState: funnelType[] = [
-        { label: reportConfig.state.waiting.label, color: reportConfig.state.waiting.color },
-        { label: reportConfig.state.pending.label, color: reportConfig.state.pending.color },
-        { label: reportConfig.state.successful.label, color: reportConfig.state.successful.color },
+    // Report state
+    const [isFilterReportState, setIsFilterReportState] = useState<boolean>(false)
+    const [reportStateData, setReportStateData] = useState<string>()
+
+    const filterReportStateRef = useRef<HTMLSpanElement>(null);
+    const dropdownReportStateRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                filterReportStateRef.current &&
+                !filterReportStateRef.current.contains(event.target as Node) &&
+                dropdownReportStateRef.current &&
+                !dropdownReportStateRef.current.contains(event.target as Node)
+            ) {
+                setIsFilterReportState(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isFilterReportState]);
+
+    const reportState: incidentType[] = [
+        { name: "Chờ xử lý", func: (text: string) => { setReportStateData(text) }, filter_func: () => { } },
+        { name: "Đang xử lý", func: (text: string) => { setReportStateData(text) }, filter_func: () => { } },
+        { name: "Đã xử lý", func: (text: string) => { setReportStateData(text) }, filter_func: () => { } },
     ]
 
     return (
@@ -146,20 +194,12 @@ const AssignmentPage: React.FC = () => {
                         </span>
 
                         <span className="flex items-center gap-5">
-                            <span>
-                                <p><b>Số lượng báo cáo:</b> 100</p>
+                            <span className="">
+
+                                <input type="text" placeholder="Tìm tên báo cáo" className="w-[300px] px-2.5 py-1 border-[0.5px] border-lightGray" />
                             </span>
                             <span>
-                                <button
-                                    className="btn mainShadow text-mainDark font-semibold flex items-center gap-1.5 px-2.5 py-1 border-[0.5px] border-lightGray rounded-small"
-                                    onClick={() => { setIsFunnel(!isFunnel) }}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
-                                        <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
-                                    </svg>
-
-                                    Bộ lọc
-                                </button>
+                                <p><b>Số lượng báo cáo:</b> 100</p>
                             </span>
 
                             <span className="flex items-center gap-1.5">
@@ -178,37 +218,6 @@ const AssignmentPage: React.FC = () => {
                         </span>
                     </div>
 
-                    {isFunnel && (
-                        <div className="flex items-center gap-7.5 py-2 border-b border-b-lightGray">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
-                                <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
-                            </svg>
-
-                            <span className="flex items-center gap-2.5">
-                                <p className="text-black text-csSmall font-semibold">Độ nghiêm trọng:</p>
-                                <span className="flex items-center gap-1">
-                                    {funnelLevel.map((snap, index) => {
-                                        return (
-                                            <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
-                                        )
-                                    })}
-                                </span>
-                            </span>
-
-                            <span className="flex items-center gap-2.5">
-                                <p className="text-black text-csSmall font-semibold">Trạng thái:</p>
-                                <span className="flex items-center gap-1">
-                                    {funnelState.map((snap, index) => {
-                                        return (
-                                            <button key={index} className="btn text-white text-csSmall px-1.5" style={{ backgroundColor: snap.color }}>{snap.label}</button>
-                                        )
-                                    })}
-                                </span>
-                            </span>
-                        </div>
-
-                    )}
-
                     {/* List */}
                     <div className="flex-1 overflow-auto relative">
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
@@ -216,13 +225,60 @@ const AssignmentPage: React.FC = () => {
                                 <tr>
                                     <th scope="col" className="px-6 py-3">ID</th>
                                     <th scope="col" className="px-6 py-3 w-1/6">Tên báo cáo</th>
-                                    <th scope="col" className="px-6 py-3">Mức độ nghiêm trọng</th>
-                                    <th scope="col" className="px-6 py-3">Người báo cáo</th>
-                                    <th scope="col" className="px-6 py-3">Hình ảnh</th>
                                     <th scope="col" className="px-6 py-3">Vị trí</th>
+                                    <th scope="col" className="px-6 py-3 flex items-center gap-2.5">
+                                        Loại sự cố
+                                        <span className="relative" ref={filterIncidentTypeRef}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`size-4 cursor-pointer ${incidentTypeData ? 'text-mainRed' : 'text-gray-700'}`} onClick={() => { setIsFilterIncidentType(!isFilterIncidentType) }}>
+                                                <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
+                                            </svg>
+
+                                            {isFilterIncidentType && (
+                                                <span className="mainShadow absolute top-full right-0 mt-2 flex flex-col w-max bg-white rounded-md z-10 overflow-hidden" ref={dropdownIncidentTypeRef}>
+                                                    <p className="cursor-pointer select-none text-sm h-fit w-full whitespace-nowrap text-gray-600 font-semibold hover:bg-gray-100 p-2.5" onClick={() => {
+                                                        setIncidentTypeData(undefined)
+                                                        setIsFilterIncidentType(false)
+                                                    }}>Tất cả</p>
+                                                    {incidentType.map((snap, index) => {
+                                                        return (
+                                                            <p key={index} className={`cursor-pointer select-none text-sm h-fit w-full whitespace-nowrap font-semibold hover:bg-gray-100 p-2.5 ${incidentTypeData === snap.name ? 'bg-gray-200 text-mainDark' : 'text-mainDark'}`} onClick={() => {
+                                                                snap.func(snap.name)
+                                                                setIsFilterIncidentType(false)
+                                                            }}>{snap.name}</p>
+                                                        )
+                                                    })}
+                                                </span>
+                                            )}
+                                        </span>
+                                    </th>
                                     <th scope="col" className="px-6 py-3">Thời gian</th>
-                                    <th scope="col" className="px-6 py-3">Trạng thái</th>
-                                    <th scope="col" className="px-6 py-3">Chi tiết</th>
+                                    <th scope="col" className="px-6 py-3">Thời gian xử lý</th>
+                                    <th scope="col" className="px-6 py-3">Hình ảnh</th>
+                                    <th scope="col" className="px-6 py-3 flex items-center gap-2.5">
+                                        Trạng thái
+                                        <span className="relative" ref={filterReportStateRef}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`size-4 cursor-pointer ${reportStateData ? 'text-mainRed' : 'text-gray-700'}`} onClick={() => { setIsFilterReportState(!isFilterReportState) }}>
+                                                <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
+                                            </svg>
+
+                                            {isFilterReportState && (
+                                                <span className="mainShadow absolute top-full right-0 mt-2 flex flex-col w-max bg-white rounded-md z-10 overflow-hidden" ref={dropdownReportStateRef}>
+                                                    <p className="cursor-pointer select-none text-sm h-fit w-full whitespace-nowrap text-gray-600 font-semibold hover:bg-gray-100 p-2.5" onClick={() => {
+                                                        setReportStateData(undefined)
+                                                        setIsFilterReportState(false)
+                                                    }}>Tất cả</p>
+                                                    {reportState.map((snap, index) => {
+                                                        return (
+                                                            <p key={index} className={`cursor-pointer select-none text-sm h-fit w-full whitespace-nowrap font-semibold hover:bg-gray-100 p-2.5 ${reportStateData === snap.name ? 'bg-gray-200 text-mainDark' : 'text-mainDark'}`} onClick={() => {
+                                                                snap.func(snap.name)
+                                                                setIsFilterReportState(false)
+                                                            }}>{snap.name}</p>
+                                                        )
+                                                    })}
+                                                </span>
+                                            )}
+                                        </span>
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -236,27 +292,26 @@ const AssignmentPage: React.FC = () => {
                                             Báo cáo {index}
                                         </td>
                                         <td className="px-6 py-4">
-                                            Nặng
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                                                <path fillRule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
+                                            </svg>
                                         </td>
                                         <td className="px-6 py-4">
-                                            Người báo cáo {index}
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <a href="#" className="font-medium text-blue-600 hover:underline">Xem</a>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <a href="#" className="font-medium text-blue-600 hover:underline">Xem</a>
+                                            Máy tuấn có 1 màn hình
                                         </td>
                                         <td className="px-6 py-4">
                                             10:00 01/10/2025
                                         </td>
                                         <td className="px-6 py-4">
-                                            Chờ xử lý
+                                            30 phút
                                         </td>
                                         <td className="px-6 py-4">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                                                <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-5">
+                                                <path fillRule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clipRule="evenodd" />
                                             </svg>
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            Chờ xử lý
                                         </td>
                                     </tr>
                                 ))}

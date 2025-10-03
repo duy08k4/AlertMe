@@ -1,6 +1,6 @@
 // Import libraries
 import type React from "react"
-import { lazy, useRef } from "react"
+import { lazy, useRef, useState, useEffect } from "react"
 import { ScreenSizeWarningPopup } from "../../hooks/Popup"
 
 // Router DOM
@@ -28,6 +28,12 @@ type navigationType = {
 const AdminLayout: React.FC = () => {
     // Location path
     const location = useLocation()
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState<boolean>(false)
+
+    const userDropdownItems = [
+        { name: "Thông tin cá nhân", func: () => { console.log("View Profile") } },
+        { name: "Đăng xuất", func: () => { console.log("Logout user") } },
+    ];
 
     // Nav
     const navigation = useRef<navigationType[]>([
@@ -37,31 +43,74 @@ const AdminLayout: React.FC = () => {
         { name: "Quản lý nhân viên", path: routeConfig.admin.endpoint.staff_management, icon_d: "M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z" }
     ])
 
+    const userDropdownRef = useRef<HTMLSpanElement>(null);
+    const userDropdownContentRef = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                userDropdownRef.current &&
+                !userDropdownRef.current.contains(event.target as Node) &&
+                userDropdownContentRef.current &&
+                !userDropdownContentRef.current.contains(event.target as Node)
+            ) {
+                setIsUserDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isUserDropdownOpen]);
+
     return (
         <div className="h-full w-full bg-white flex flex-col">
             <ScreenSizeWarningPopup />
-            <div className="flex items-center gap-20 px-mainTwoSidePadding py-3 border-b border-b-lightGray">
-                <span className="flex items-center gap-2">
-                    <img src={AlertMe} className="h-[40px]" />
-                    <h1 className="text-black text-csBig uppercase font-semibold">Admin</h1>
+            <div className="flex items-center justify-between gap-20 px-mainTwoSidePadding py-3 border-b border-b-lightGray">
+                <span className="flex items-center gap-20">
+                    <span className="flex items-center gap-2">
+                        <img src={AlertMe} className="h-[40px]" />
+                        <h1 className="text-black text-csBig uppercase font-semibold">Admin</h1>
+                    </span>
+
+                    <span className="flex gap-10">
+                        {navigation.current.map((nav, index) => {
+                            return (
+                                <Link
+                                    key={index}
+                                    to={nav.path}
+                                    className={`btn rounded-small text-black text-csSmall font-semibold flex items-center gap-2.5 px-5 py-1.5 hover:bg-light-background ${location.pathname === nav.path && "!text-mainRed bg-[rgba(242,82,85,0.2)]"}`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d={nav.icon_d} />
+                                    </svg>
+
+                                    {nav.name}
+                                </Link>
+                            )
+                        })}
+                    </span>
                 </span>
 
-                <span className="flex gap-10">
-                    {navigation.current.map((nav, index) => {
-                        return (
-                            <Link
-                                key={index}
-                                to={nav.path}
-                                className={`btn rounded-small text-black text-csSmall font-semibold flex items-center gap-2.5 px-5 py-1.5 hover:bg-light-background ${location.pathname === nav.path && "!text-mainRed bg-[rgba(242,82,85,0.2)]"}`}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d={nav.icon_d} />
-                                </svg>
+                <span className="relative" ref={userDropdownRef}>
+                    <span className="mainShadow h-fit w-fit flex items-center gap-2.5 px-2.5 py-1 rounded-small border-[0.5px] border-lightGray cursor-pointer" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
+                        <p>duytran.290804@gmail.com</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
+                            <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clipRule="evenodd" />
+                        </svg>
+                    </span>
 
-                                {nav.name}
-                            </Link>
-                        )
-                    })}
+                    {isUserDropdownOpen && (
+                        <span className="mainShadow absolute z-[600] top-full right-0 mt-2 flex flex-col w-max bg-white rounded-md overflow-hidden" ref={userDropdownContentRef}>
+                            {userDropdownItems.map((item, index) => (
+                                <p key={index} className="cursor-pointer select-none text-sm h-fit w-full whitespace-nowrap text-mainDark font-semibold hover:bg-gray-100 p-2.5" onClick={() => {
+                                    item.func();
+                                    setIsUserDropdownOpen(false);
+                                }}>{item.name}</p>
+                            ))}
+                        </span>
+                    )}
                 </span>
             </div>
 
