@@ -7,8 +7,6 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Config
-import { reportConfig } from "../../configs/reportConfig";
 
 // Default icon for React
 import iconUrl from "leaflet/dist/images/marker-icon.png";
