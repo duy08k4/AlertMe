@@ -22,7 +22,7 @@ const leadershipTeam: Member[] = [
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: adminImage,
-        role: "Quản lý dự án",
+        role: "Quản lý dự án - Thiết kế giao diện",
     },
     {
         name: "Trần Bá Tường Duy",
@@ -30,7 +30,7 @@ const leadershipTeam: Member[] = [
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: feLeadImage,
-        role: "Trưởng nhóm Frontend",
+        role: "Trưởng nhóm Frontend - Phát triển hệ thống",
     },
     {
         name: "Đỗ Phú Trọng",
@@ -49,7 +49,7 @@ const memberTeam: Member[] = [
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: memberImage1,
-        role: "Thành viên",
+        role: "Thiết kế giao diện",
     },
     {
         name: "Võ Thị Thúy An",
@@ -57,7 +57,7 @@ const memberTeam: Member[] = [
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: memberImage2,
-        role: "Thành viên",
+        role: "Thiết kế giao diện",
     },
     {
         name: "Đỗ Trọng Liên",
@@ -65,7 +65,7 @@ const memberTeam: Member[] = [
         className: "DH22HM",
         major: "Hệ thống thông tin",
         imageUrl: memberImage1,
-        role: "Thành viên",
+        role: "Phát triển hệ thống",
     },
     {
         name: "Dương Bảo Trâm",
@@ -73,7 +73,7 @@ const memberTeam: Member[] = [
         className: "DH21HM",
         major: "Hệ thống thông tin",
         imageUrl: memberImage2,
-        role: "Thành viên",
+        role: "Thiết kế giao diện",
     },
     {
         name: "Phan Hữu Lý",
@@ -81,7 +81,7 @@ const memberTeam: Member[] = [
         className: "DH21HM",
         major: "Hệ thống thông tin",
         imageUrl: memberImage1,
-        role: "Thành viên",
+        role: "Phát triển hệ thống",
     },
 ];
 
