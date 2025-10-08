@@ -1,5 +1,6 @@
 // Import libraries
 import React, { useState, useEffect } from "react";
+import Plot from 'react-plotly.js';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 // Types
@@ -25,30 +26,72 @@ type ChartDataSet = {
     avgResponse: any[];
 };
 
+// --- MOCK DATA GENERATION ---
+
+const generateResponseTimes = (count: number, min: number, max: number) => {
+    return Array.from({ length: count }, () => Math.floor(Math.random() * (max - min)) + min);
+};
+
+const createBoxPlotData = (config: {count: number, min: number, max: number}[]) => {
+    const labels = ['Tắc nghẽn & Tai nạn', 'Hạ tầng', 'Thời tiết'];
+    return labels.map((label, index) => ({
+        y: generateResponseTimes(config[index].count, config[index].min, config[index].max),
+        type: 'box',
+        name: label
+    }));
+};
+
 // --- HARDCODED MOCK DATA ---
 
 // HOURLY DATA
 const hourlyData: ChartDataSet = {
-    report: Array.from({ length: 24 }, (_, i) => ({ name: `${i}:00`, 'Báo cáo': Math.floor(Math.random() * 20) + 5, 'Đã giải quyết': Math.floor(Math.random() * 15) })),
+    report: Array.from({ length: 24 }, (_, i) => ({
+        name: `${i}:00`,
+        'Đã giải quyết': Math.floor(Math.random() * 15),
+        'Đang xử lý': Math.floor(Math.random() * 5),
+        'Chưa xử lý': Math.floor(Math.random() * 5)
+    })),
     reportAndSOS: Array.from({ length: 24 }, (_, i) => ({ name: `${i}:00`, 'Báo cáo': Math.floor(Math.random() * 20) + 5, 'SOS': Math.floor(Math.random() * 5) })),
     traffic: Array.from({ length: 24 }, (_, i) => ({ name: `${i}:00`, 'Tai nạn': Math.floor(Math.random() * 5), 'Sụt lún': Math.floor(Math.random() * 2), 'Ùn tắc': Math.floor(Math.random() * 10), 'Đèn tín hiệu': Math.floor(Math.random() * 3), 'Khác': Math.floor(Math.random() * 4) })),
-    avgResponse: Array.from({ length: 24 }, (_, i) => ({ time: `${i}:00`, 'Thời gian (phút)': Math.floor(Math.random() * 30) + 10 }))
+    avgResponse: createBoxPlotData([
+        { count: 50, min: 10, max: 50 },
+        { count: 30, min: 5, max: 40 },
+        { count: 20, min: 2, max: 25 }
+    ])
 };
 
 // 7-DAY DATA
 const daily7DayData: ChartDataSet = {
-    report: Array.from({ length: 7 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Báo cáo': Math.floor(Math.random() * 150) + 50, 'Đã giải quyết': Math.floor(Math.random() * 120) })),
+    report: Array.from({ length: 7 }, (_, i) => ({
+        name: `Ngày ${i + 1}`,
+        'Đã giải quyết': Math.floor(Math.random() * 120),
+        'Đang xử lý': Math.floor(Math.random() * 30),
+        'Chưa xử lý': Math.floor(Math.random() * 30)
+    })),
     reportAndSOS: Array.from({ length: 7 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Báo cáo': Math.floor(Math.random() * 150) + 50, 'SOS': Math.floor(Math.random() * 20) })),
     traffic: Array.from({ length: 7 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Tai nạn': Math.floor(Math.random() * 20), 'Sụt lún': Math.floor(Math.random() * 5), 'Ùn tắc': Math.floor(Math.random() * 30), 'Đèn tín hiệu': Math.floor(Math.random() * 10), 'Khác': Math.floor(Math.random() * 15) })),
-    avgResponse: Array.from({ length: 7 }, (_, i) => ({ time: `Ngày ${i + 1}`, 'Thời gian (phút)': Math.floor(Math.random() * 45) + 15 }))
+    avgResponse: createBoxPlotData([
+        { count: 350, min: 15, max: 60 },
+        { count: 210, min: 10, max: 50 },
+        { count: 140, min: 5, max: 35 }
+    ])
 };
 
 // 30-DAY DATA
 const daily30DayData: ChartDataSet = {
-    report: Array.from({ length: 30 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Báo cáo': Math.floor(Math.random() * 160) + 40, 'Đã giải quyết': Math.floor(Math.random() * 130) })),
+    report: Array.from({ length: 30 }, (_, i) => ({
+        name: `Ngày ${i + 1}`,
+        'Đã giải quyết': Math.floor(Math.random() * 130),
+        'Đang xử lý': Math.floor(Math.random() * 40),
+        'Chưa xử lý': Math.floor(Math.random() * 40)
+    })),
     reportAndSOS: Array.from({ length: 30 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Báo cáo': Math.floor(Math.random() * 160) + 40, 'SOS': Math.floor(Math.random() * 25) })),
     traffic: Array.from({ length: 30 }, (_, i) => ({ name: `Ngày ${i + 1}`, 'Tai nạn': Math.floor(Math.random() * 25), 'Sụt lún': Math.floor(Math.random() * 8), 'Ùn tắc': Math.floor(Math.random() * 35), 'Đèn tín hiệu': Math.floor(Math.random() * 12), 'Khác': Math.floor(Math.random() * 20) })),
-    avgResponse: Array.from({ length: 30 }, (_, i) => ({ time: `Ngày ${i + 1}`, 'Thời gian (phút)': Math.floor(Math.random() * 50) + 10 }))
+    avgResponse: createBoxPlotData([
+        { count: 1500, min: 20, max: 70 },
+        { count: 900, min: 15, max: 60 },
+        { count: 600, min: 10, max: 45 }
+    ])
 };
 
 
@@ -177,9 +220,9 @@ const AnalystPage: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-full min-h-[600px]">
-                    {/* Biểu đồ cột đôi thể hiện số lượng báo cáo và số lượng báo cáo đã giải quyết */}
+                    {/* Biểu đồ cột chồng thể hiện trạng thái báo cáo */}
                     <div className="mainShadow bg-white p-4 rounded-lg flex flex-col min-h-[300px]">
-                        <h3 className="font-semibold mb-4">{`Số lượng báo cáo ${chartTitle}`}</h3>
+                        <h3 className="font-semibold mb-4">{`Trạng thái báo cáo ${chartTitle}`}</h3>
                         <div className="flex-1">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={chartData.report}>
@@ -188,26 +231,34 @@ const AnalystPage: React.FC = () => {
                                     <YAxis />
                                     <Tooltip />
                                     <Legend />
-                                    <Bar dataKey="Báo cáo" fill="#808080" />
-                                    <Bar dataKey="Đã giải quyết" fill="#82ca9d" />
+                                    <Bar dataKey="Đã giải quyết" stackId="a" fill="#82ca9d" />
+                                    <Bar dataKey="Đang xử lý" stackId="a" fill="#ffc658" />
+                                    <Bar dataKey="Chưa xử lý" stackId="a" fill="#f25255" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    {/* Biểu đồ đường thể hiện thời gian phản hồi trung bình */}
+                    {/* Biểu đồ Box Plot thể hiện thời gian phản hồi trung bình */}
                     <div className="mainShadow bg-white p-4 rounded-lg flex flex-col min-h-[300px]">
                         <h3 className="font-semibold mb-4">{`Thời gian phản hồi trung bình ${chartTitle}`}</h3>
                         <div className="flex-1">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={chartData.avgResponse}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="time" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="Thời gian (phút)" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                </LineChart>
-                            </ResponsiveContainer>
+                            <Plot
+                                data={chartData.avgResponse as any}
+                                layout={{
+                                    autosize: true,
+                                    yaxis: { 
+                                        title: { text: 'Thời gian (phút)' },
+                                        automargin: true
+                                    },
+                                    xaxis: {
+                                        automargin: true
+                                    },
+                                    boxmode: 'group',
+                                    showlegend: false
+                                }}
+                                useResizeHandler={true}
+                                style={{ width: '100%', height: '100%' }}
+                            />
                         </div>
                     </div>
                     {/* Biểu đồ cột đôi thể hiện số lượng báo cáo và số lượng SOS */}
