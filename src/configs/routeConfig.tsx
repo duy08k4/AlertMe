@@ -24,5 +24,12 @@ export const routeConfig = {
         endpoint: {
             not_found: "/not-found"
         }
+    },
+
+    reportview: {
+        root: "/report-view",
+        endpoint: {
+            
+        }
     }
 }

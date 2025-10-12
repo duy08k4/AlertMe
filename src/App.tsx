@@ -10,6 +10,7 @@ const LandingLayout = lazy(() => import("./ui/layouts/LandingLayout"))
 const AdminLayout = lazy(() => import("./ui/layouts/AdminLayout"))
 const AdminLogin = lazy(() => import("./ui/pages/AdminLogin"))
 const NotFound = lazy(() => import("./ui/pages/NotFound"))
+const ReportViewLayout = lazy(() => import("./ui/layouts/ReportViewLayout"))
 
 // Main component
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path={routeConfig.landing.root + "*"} element={<LandingLayout />} />
         <Route path={routeConfig.admin.root + "/*"} element={<AdminLayout />} />
         <Route path={routeConfig.auth.root} element={<AdminLogin />} />
+        <Route path={routeConfig.reportview.root} element={<ReportViewLayout />} />
         <Route path={routeConfig.auth.endpoint.not_found} element={<NotFound />} />
       </Routes>
     </div>

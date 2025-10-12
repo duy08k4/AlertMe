@@ -106,7 +106,7 @@ const HomePage: React.FC = () => {
                 <h1 className="text-black font-semibold text-5xl tracking-wider max-md:text-3xl max-md:px-4">Hệ thống báo cáo sự cố giao thông</h1>
                 <p className="text-gray text-csBig max-md:text-base max-md:px-4">Nền tảng giúp người dân báo cáo sự cố giao thông và theo dõi tình hình trực tiếp trên bản đồ.</p>
                 <span className="flex gap-5 items-center mt-10 group [&>a]:text-csNormal [&>a]:font-semibold [&>a]:h-[50px] [&>a]:flex [&>a]:items-center [&>a]:justify-center [&>a]:px-10 [&>a]:rounded-main max-sm:flex-col max-sm:px-4 max-sm:w-full">
-                    <Link to="/" className="bg-mainRed text-white max-sm:w-full">Xem bản đồ sự cố</Link>
+                    <Link to={routeConfig.reportview.root} className="bg-mainRed text-white max-sm:w-full">Xem bản đồ sự cố</Link>
                     <Link to={routeConfig.auth.root} className="mainShadow gap-2.5 bg-white max-sm:w-full">
                         <i className="far fa-window-restore"></i>
                         Quản lý hệ thống
