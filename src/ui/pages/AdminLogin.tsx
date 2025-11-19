@@ -1,11 +1,15 @@
 // Import libraries
 import type React from "react";
+import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import { ScreenSizeWarningPopup } from "../../hooks/Popup";
 
 // Router DOM
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routeConfig } from "../../configs/routeConfig";
+
+// Services
+import { authService } from "../../services/authService";
 
 // Images
 import Patern1 from "../../assets/patterns/Pattern1.png"
@@ -13,6 +17,10 @@ import AlertMe from "../../assets/AlertMe.png"
 
 // Main component
 const AdminLogin: React.FC = () => {
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
     const containerVariants: Variants = {
         hidden: { opacity: 0, scale: 0.95 },
         visible: {
@@ -29,6 +37,32 @@ const AdminLogin: React.FC = () => {
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setError(null);
+
+        const formData = new FormData(e.currentTarget);
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        try {
+            const data = await authService.login(email, password);
+            
+            // Store tokens
+            localStorage.setItem("accessToken", data.access_token);
+            localStorage.setItem("refreshToken", data.refresh_token);
+            
+            // Redirect to admin dashboard
+            navigate(routeConfig.admin.root);
+        } catch (err: any) {
+            console.error("Login failed:", err);
+            setError("Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -66,7 +100,12 @@ const AdminLogin: React.FC = () => {
                         <p className="mt-2 text-center text-lg text-gray-600">Vui lòng đăng nhập để tiếp tục.</p>
                     </motion.div>
 
-                    <motion.form variants={containerVariants} className="mt-8 space-y-6">
+                    <motion.form variants={containerVariants} className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                        {error && (
+                            <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+                                {error}
+                            </div>
+                        )}
                         <motion.div variants={itemVariants}>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                             <div className="mt-1">
@@ -87,13 +126,20 @@ const AdminLogin: React.FC = () => {
                         <motion.div variants={itemVariants}>
                             <button
                                 type="submit"
-                                className="btn w-full flex items-center gap-2.5 justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-xl font-bold text-white bg-mainRed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainRed transition duration-300 ease-in-out transform hover:-translate-y-0.5"
+                                disabled={isLoading}
+                                className="btn w-full flex items-center gap-2.5 justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-xl font-bold text-white bg-mainRed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainRed transition duration-300 ease-in-out transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                </svg>
-                                Gửi mail xác nhận
+                                {isLoading ? (
+                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                    </svg>
+                                )}
+                                {isLoading ? "Đang xử lý..." : "Đăng nhập"}
                             </button>
                         </motion.div>
                     </motion.form>
