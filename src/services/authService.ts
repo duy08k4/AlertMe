@@ -54,7 +54,7 @@ export const authService = {
       localStorage.setItem("refreshToken", response.data.refresh_token);
 
       // Dispatch user data to Redux store
-      store.dispatch(setUser(response.data.user));
+       store.dispatch(setUser(response.data.user));
 
       // Show success toast
       toast.update(toastId, {
@@ -125,5 +125,12 @@ export const authService = {
       authService.logout();
       throw error;
     }
+  },
+
+  getMe: async () => {
+    const response = await api.get<LoginResponse["user"]>("/auth/me");
+    // Dispatch user data to Redux store
+    store.dispatch(setUser(response.data));
+    return response.data;
   },
 };

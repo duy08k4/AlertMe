@@ -5,6 +5,7 @@ import { ScreenSizeWarningPopup } from "../../hooks/Popup";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useAuth } from "../../hooks/useAuth";
+import { authService } from "../../services/authService";
 
 // Router DOM
 import { Link, Route, Routes, useLocation } from "react-router-dom";
@@ -82,6 +83,31 @@ const AdminLayout: React.FC = () => {
 
   const userDropdownRef = useRef<HTMLSpanElement>(null);
   const userDropdownContentRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const reattachUser = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (accessToken && Object.keys(user).length === 0) {
+        try {
+          await authService.getMe();
+        } catch (error) {
+          // If getMe fails, try refresh token then getMe again
+          if (refreshToken) {
+            try {
+              await authService.refreshToken(refreshToken);
+              await authService.getMe();
+            } catch (refreshError) {
+              console.error("Failed to reattach user:", refreshError);
+              // Optionally logout or redirect to login
+            }
+          }
+        }
+      }
+    };
+
+    reattachUser();
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
