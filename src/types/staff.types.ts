@@ -102,3 +102,17 @@ export interface StaffSignUpResponse {
   };
   requiresEmailVerification: boolean;
 }
+
+// Update request type
+export interface StaffUpdateRequest {
+  email: string;
+  name: string;
+  username: string;
+  phone_number: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  postal_code?: string;
+  country?: string;
+  profilepic?: string;
+}
