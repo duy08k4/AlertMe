@@ -1,60 +1,141 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import api from "../../configs/gateway";
+import type { UserMember, UserApiResponse, UserUpdateRequest } from "../../types/user.types";
 
-export type userData = {
-  access_token: string;
-  refresh_token: string;
-  user: {
-    id: string;
-    email: string;
-    supabase_id: string;
-    role_id: string;
-    created_at: string;
-    updated_at: string; // 2025-11-18T23:59:33.379Z
-    role: {
-      id: string;
-      name: string;
-    };
-    profile: {
-      id: string;
-      username: string;
-      phone_number: string | null;
-      address: string | null;
-      city: string | null;
-      state: string | null;
-      postal_code: string | null;
-      country: string | null;
-      profilepic: string | null;
-      created_at: string;
-      updated_at: string;
-    };
-  };
-  expires_in: number;
-  expires_at: number;
-};
-
-export interface UserState {
-  user: userData["user"] | Record<string, never>;
+interface UsersState {
+    userList: UserMember[];
+    loading: boolean;
+    error: string | null;
 }
 
-const initialState: UserState = {
-  user: {} as Record<string, never>,
+const initialState: UsersState = {
+    userList: [],
+    loading: false,
+    error: null,
 };
 
-export const userSlice = createSlice({
-  name: "user",
-  initialState,
-  reducers: {
-    setUser: (state, action: PayloadAction<userData["user"]>) => {
-      state.user = action.payload;
+// Helper to transform API response to component data
+const transformUserData = (user: UserApiResponse): UserMember => {
+    return {
+        id: user.id,
+        email: user.email,
+        username: user.username,
+        role: user.role.name,
+        joinDate: new Date(user.created_at).toLocaleDateString("vi-VN"),
+        phone: user.phone_number || "N/A",
+        address: user.address || "",
+        city: user.city || "",
+        state: user.state || "",
+        postalCode: user.postal_code || "",
+        country: user.country || "",
+        profilePic: user.profilepic || "",
+    };
+};
+
+export const fetchUserList = createAsyncThunk(
+    "userManagement/fetchUserList",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await api.get("/users");
+            return response.data.data.map(transformUserData);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return rejectWithValue(
+                    error.response?.data?.message || "Không thể tải danh sách người dùng"
+                );
+            }
+            return rejectWithValue("Đã xảy ra lỗi không xác định");
+        }
+    }
+);
+
+export const updateUser = createAsyncThunk(
+    "userManagement/updateUser",
+    async (
+        { id, data }: { id: string; data: UserUpdateRequest },
+        { rejectWithValue }
+    ) => {
+        try {
+            const response = await api.put(`/users/${id}`, data);
+
+            // The update endpoint returns the user directly in response.data, not response.data.data
+            const userData = response.data.data || response.data;
+
+            const transformed = transformUserData(userData);
+            return transformed;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return rejectWithValue(
+                    error.response?.data?.message || "Không thể cập nhật thông tin người dùng"
+                );
+            }
+            return rejectWithValue("Đã xảy ra lỗi không xác định");
+        }
+    }
+);
+
+export const deleteUser = createAsyncThunk(
+    "userManagement/deleteUser",
+    async (id: string, { rejectWithValue }) => {
+        try {
+            await api.delete(`/users/${id}`);
+            return id;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                return rejectWithValue(
+                    error.response?.data?.message || "Không thể xóa người dùng"
+                );
+            }
+            return rejectWithValue("Đã xảy ra lỗi không xác định");
+        }
+    }
+);
+
+const userManagementSlice = createSlice({
+    name: "userManagement",
+    initialState,
+    reducers: {
+        clearError: (state) => {
+            state.error = null;
+        },
     },
-    clearUser: (state) => {
-      state.user = {} as Record<string, never>;
+    extraReducers: (builder) => {
+        // Fetch User List
+        builder
+            .addCase(fetchUserList.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchUserList.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userList = action.payload;
+            })
+            .addCase(fetchUserList.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
+
+        // Update User
+        builder
+            .addCase(updateUser.fulfilled, (state, action) => {
+                const index = state.userList.findIndex(
+                    (user) => user.id === action.payload.id
+                );
+                if (index !== -1) {
+                    state.userList[index] = action.payload;
+                }
+            });
+
+        // Delete User
+        builder
+            .addCase(deleteUser.fulfilled, (state, action) => {
+                state.userList = state.userList.filter(
+                    (user) => user.id !== action.payload
+                );
+            });
     },
-  },
 });
 
-// Action creators are generated for each case reducer function
-export const { setUser, clearUser } = userSlice.actions;
-
-export default userSlice.reducer;
+export const { clearError } = userManagementSlice.actions;
+export default userManagementSlice.reducer;

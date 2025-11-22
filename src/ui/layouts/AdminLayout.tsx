@@ -17,7 +17,7 @@ import AlertMe from "../../assets/AlertMe.png";
 // Pages
 const AssignmentPage = lazy(() => import("../pages/AssignmentPage"));
 const AnalystPage = lazy(() => import("../pages/AnalystPage"));
-const UserManagement = lazy(() => import("../pages/UserManagement"));
+const UserManagement = lazy(() => import("../pages/UserManagement/index"));
 const StaffManagement = lazy(() => import("../pages/StaffManagement/index"));
 const NotFound = lazy(() => import("../pages/NotFound"));
 
@@ -42,7 +42,6 @@ const AdminLayout: React.FC = () => {
     {
       name: "Thông tin cá nhân",
       func: () => {
-        console.log("View Profile");
       },
     },
     {

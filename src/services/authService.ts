@@ -1,6 +1,6 @@
 import api from "../configs/gateway";
 import { store } from "../redux/store";
-import { setUser, clearUser } from "../redux/reducers/user";
+import { setUser, clearUser } from "../redux/reducers/admin";
 import { toastConfig } from "../configs/toastConfig";
 import { toast } from "react-toastify";
 
@@ -54,11 +54,11 @@ export const authService = {
       localStorage.setItem("refreshToken", response.data.refresh_token);
 
       // Dispatch user data to Redux store
-       store.dispatch(setUser(response.data.user));
+      store.dispatch(setUser(response.data.user));
 
       // Show success toast
       toast.update(toastId, {
-        render: `Chào mừng, ${response.data.user.profile.username || response.data.user.email}!`,
+        render: `Đã đăng nhập với ${response.data.user.profile.username || response.data.user.email}!`,
         type: "success",
         isLoading: false,
         autoClose: 3000,

@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import type { RootState } from "../redux/store";
-import type { userData } from "../redux/reducers/user";
+import type { userData } from "../redux/reducers/admin";
 import { authService } from "../services/authService";
 import { routeConfig } from "../configs/routeConfig";
 
