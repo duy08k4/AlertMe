@@ -9,6 +9,7 @@ import { routeConfig } from "../../configs/routeConfig"
 
 // Images
 import AlertMe from "../../assets/AlertMe.png"
+import Auth from "../components/Auth"
 
 // Pages
 const AssignmentPage = lazy(() => import("../pages/AssignmentPage"))
@@ -66,6 +67,7 @@ const AdminLayout: React.FC = () => {
 
     return (
         <div className="h-full w-full bg-white flex flex-col">
+            <Auth />
             <ScreenSizeWarningPopup />
             <div className="flex items-center justify-between gap-20 px-mainTwoSidePadding py-3 border-b border-b-lightGray">
                 <span className="flex items-center gap-20">
