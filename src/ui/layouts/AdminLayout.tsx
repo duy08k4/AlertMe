@@ -10,6 +10,9 @@ import { routeConfig } from "../../configs/routeConfig"
 // Images
 import AlertMe from "../../assets/AlertMe.png"
 import Auth from "../components/Auth"
+import { useSelector } from "react-redux"
+import type { RootState } from "../../redux/store"
+import GetData from "../components/GetData"
 
 // Pages
 const AssignmentPage = lazy(() => import("../pages/AssignmentPage"))
@@ -27,6 +30,9 @@ type navigationType = {
 
 // Main component
 const AdminLayout: React.FC = () => {
+    // Admin
+    const adminData = useSelector((state: RootState) => state.admin.profile)
+
     // Location path
     const location = useLocation()
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState<boolean>(false)
@@ -68,6 +74,7 @@ const AdminLayout: React.FC = () => {
     return (
         <div className="h-full w-full bg-white flex flex-col">
             <Auth />
+            <GetData />
             <ScreenSizeWarningPopup />
             <div className="flex items-center justify-between gap-20 px-mainTwoSidePadding py-3 border-b border-b-lightGray">
                 <span className="flex items-center gap-20">
@@ -97,7 +104,7 @@ const AdminLayout: React.FC = () => {
 
                 <span className="relative" ref={userDropdownRef}>
                     <span className="mainShadow h-fit w-fit flex items-center gap-2.5 px-2.5 py-1 rounded-small border-[0.5px] border-lightGray cursor-pointer" onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}>
-                        <p>duytran.290804@gmail.com</p>
+                        <p>{adminData.email}</p>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-4">
                             <path fillRule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clipRule="evenodd" />
                         </svg>

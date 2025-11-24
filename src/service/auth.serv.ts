@@ -83,7 +83,7 @@ export default class authService {
                     }
                 })
 
-                const adminDataProfile = response.data.user as adminData['user']
+                const adminDataProfile = response.data as adminData['user']
 
                 toast.dismiss(pending)
                 store.dispatch(setAdminProfile(adminDataProfile))

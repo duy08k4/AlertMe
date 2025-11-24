@@ -5,7 +5,9 @@ export const reportStatus = {
     closed: 'Đã giải quyết',
 }
 
-export const reportStatusColor = {
+export type ReportStatusKey = keyof typeof reportStatus;
+
+export const reportStatusColor: { [key in ReportStatusKey]: { textColor: string; bgColor: string } } = {
     pending: {
         textColor: 'text-[#FFA500]',
         bgColor: 'bg-[rgba(255,165,0,0.15)]'
@@ -32,7 +34,9 @@ export const taskStatus = {
     cancelled: 'Đã hủy',
 }
 
-export const taskStatusColor = {
+export type TaskStatusKey = keyof typeof taskStatus;
+
+export const taskStatusColor: { [key in TaskStatusKey]: { textColor: string; bgColor: string } } = {
     not_received: {
         textColor: 'text-[#FFA500]',
         bgColor: 'bg-[rgba(255,165,0,0.15)]'
