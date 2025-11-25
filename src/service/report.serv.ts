@@ -30,7 +30,7 @@ export class reportService {
         try {
             const pending = toastConfig({
                 pending: true,
-                toastMessage: 'Đang tải dữ liệu trang 1'
+                toastMessage: `Đang tải dữ liệu trang ${page}`
             })
             const params: any = {
                 page: page ?? 1,

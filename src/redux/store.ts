@@ -7,7 +7,7 @@ import reportReducer from './reducer/report'
 export const store = configureStore({
     reducer: {
         admin: adminReducer,
-        staf: staffReducer,
+        staff: staffReducer,
         user: userReducer,
         report: reportReducer
     }

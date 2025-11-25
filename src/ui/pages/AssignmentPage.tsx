@@ -15,7 +15,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { reportService } from "../../service/report.serv";
-import { reportStatus } from "../../configs/reportStatus";
+import { reportStatus, reportStatusColor } from "../../configs/reportStatus";
 import type { reportPagination } from "../../redux/reducer/report";
 import useDebounce from "../../hooks/Debounce";
 import MapControlPannel from "../components/MapControlPannel";
@@ -124,7 +124,6 @@ const AssignmentPage: React.FC = () => {
     const debounceSearch = useDebounce(searchContent, 500)
 
     useEffect(() => {
-        console.log(debounceSearch)
         reportService.getAllReport(page, undefined, undefined, undefined, undefined, undefined, debounceSearch)
     }, [debounceSearch])
 
@@ -217,7 +216,7 @@ const AssignmentPage: React.FC = () => {
 
                     <div className="flex justify-between items-center py-2 border-b border-b-lightGray">
                         <span className="flex items-center gap-1.5">
-                            <input type="text" placeholder="Tìm theo tên báo cáo, người gửi" className="w-[300px] px-2.5 py-1 border-[0.5px] border-lightGray" value={searchContent} onChange={(e) => setSearchContent(e.target.value)}/>
+                            <input type="text" placeholder="Tìm theo tên báo cáo, người gửi" className="w-[300px] px-2.5 py-1 border-[0.5px] border-lightGray" value={searchContent} onChange={(e) => setSearchContent(e.target.value)} />
                         </span>
 
                         <span className="flex items-center gap-5">
@@ -265,7 +264,7 @@ const AssignmentPage: React.FC = () => {
                                         </td>
 
                                         <td className="text-black px-6 py-4 min-w-1/8 max-w-[350px] truncate">
-                                            {reportStatus[data.status]}
+                                            <p className={`h-fit w-fit px-2.5 py-1 text-csTiny font-medium ${reportStatusColor[data.status].textColor} ${reportStatusColor[data.status].bgColor} rounded-main`}>{reportStatus[data.status]}</p>
                                         </td>
 
                                         <td className="text-black px-6 py-4 min-w-1/8 max-w-[350px] truncate">

@@ -7,9 +7,6 @@ import type { RootState } from "../../redux/store"
 const GetData: React.FC = () => {
     const adminProfile = useSelector((state: RootState) => state.admin.profile)
 
-    // Staff data (only page 1) one times
-
-
     // Report data (only page 1) one times
     useEffect(() => {
         if (adminProfile.id) {
