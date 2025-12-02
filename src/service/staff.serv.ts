@@ -4,7 +4,7 @@ import { toastConfig } from "../configs/toastConfig"
 import type { roleConfig } from "../configs/roleConfig"
 import staffGuard from "./staff.guard"
 import { store } from "../redux/store"
-import { addNewStaff, setAmountStaff, setMaxPage, setPage, setPaginationData, type staffData, type staffListPagination } from "../redux/reducer/staff"
+import { addNewStaff, removeStaff, setAmountStaff, setMaxPage, setPage, setPaginationData, type staffData, type staffFullData, type staffListPagination } from "../redux/reducer/staff"
 
 export class staffService {
 
@@ -60,6 +60,46 @@ export class staffService {
         }
     }
 
+    // Get one staff
+    public static async getOneStaff(staffId: string) {
+        if (!staffId) {
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy nhân viên'
+            })
+
+            return false
+        }
+
+        try {
+            const { data, status } = await api.get("/staff/query", {
+                params: {
+                    ids: staffId
+                }
+            })
+
+            if (status === 200) {
+                return data as staffFullData[]
+            }
+
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy nhân viên'
+            })
+
+            return false
+
+        } catch (error) {
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy nhân viên'
+            })
+
+            console.error(error)
+            return false
+        }
+    }
+
     // Upload image for staff
     public static async uploadImage(file: File) {
         try {
@@ -97,7 +137,7 @@ export class staffService {
         }
 
         try {
-            await api.delete('upload', {
+            await api.delete('/upload', {
                 data: { urls }
             })
 
@@ -195,11 +235,7 @@ export class staffService {
         }
 
         try {
-            const { status } = await api.delete('/staff', {
-                params: {
-                    id: staffId
-                }
-            })
+            const { status } = await api.delete(`/staff/${staffId}`)
 
             if (status === 200) {
                 await this.deleteImage([staffImg])
@@ -208,6 +244,9 @@ export class staffService {
                     toastType: 'success',
                     toastMessage: 'Đã xóa nhân viên'
                 })
+
+                // Update state
+                store.dispatch(removeStaff({staffId}))
 
                 return true
             }

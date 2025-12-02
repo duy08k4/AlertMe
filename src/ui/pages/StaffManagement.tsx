@@ -54,10 +54,16 @@ const StaffManagement: React.FC = () => {
     }
 
     const deleteStaff = async () => {
+        console.log(selectedStaff)
         if (selectedStaff) {
             await staffService.deleteStaff(selectedStaff?.id, selectedStaff.profilepic)
+            setSelectedStaff(null)
         }
     }
+
+    const refreshData = async () => {
+            await staffService.getStaff(1, "staff", debounceSearch)
+        }
 
     return (
         <div className="h-full flex flex-col gap-4 overflow-hidden p-6 bg-gray-50">
@@ -100,7 +106,7 @@ const StaffManagement: React.FC = () => {
                                 </button>
                             </div>
 
-                            <button className="bg-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-300 transition-colors">
+                            <button className="bg-gray-200 text-gray-700 p-2 rounded-lg hover:bg-gray-300 transition-colors" onClick={refreshData}>
                                 <RefreshCw size={20} />
                             </button>
                         </div>

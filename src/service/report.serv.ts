@@ -2,7 +2,7 @@ import { toast } from "react-toastify"
 import api from "../configs/gateway"
 import type { ReportStatusKey } from "../configs/reportStatus"
 import { toastConfig } from "../configs/toastConfig"
-import { setAmountReports, setMaxPage, setPage, setPaginationData, type reportListPagination } from "../redux/reducer/report"
+import { setAmountReports, setMaxPage, setPage, setPaginationData, type reportListPagination, type reportPagination } from "../redux/reducer/report"
 import { store } from "../redux/store"
 
 export class reportService {
@@ -76,6 +76,40 @@ export class reportService {
                 toastMessage: 'Không tìm thấy dữ liệu'
             })
 
+            console.error(error)
+            return false
+        }
+    }
+
+    // Get a report based on ID
+    public static async getAReport(reportId: string) {
+        if (!reportId) {
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy dữ liệu báo cáo'
+            })
+            console.error("ID is invalid!")
+            return false
+        }
+
+        try {
+            const { data, status } = await api.get(`/reports/${reportId}`)
+
+            if (status === 200) {
+                return data as reportPagination
+            }
+
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy dữ liệu báo cáo'
+            })
+            return false
+
+        } catch (error) {
+            toastConfig({
+                toastType: 'error',
+                toastMessage: 'Không tìm thấy dữ liệu báo cáo'
+            })
             console.error(error)
             return false
         }

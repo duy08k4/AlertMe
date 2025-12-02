@@ -30,6 +30,18 @@
         cursor: grabbing;
         transition: all linear 0.2s;
     }
+    
+    button:hover {
+        filter: brightness(0.9);
+        cursor: grab;
+        transition: all linear 0.2s;
+    }
+
+    button:active {
+        filter: brightness(0.85);
+        cursor: grabbing;
+        transition: all linear 0.2s;
+    }
 
     .mainShadow {
         box-shadow: 0 0 5px #d3d3d3;

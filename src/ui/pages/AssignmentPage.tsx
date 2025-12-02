@@ -18,9 +18,7 @@ import { reportService } from "../../service/report.serv";
 import { reportStatus, reportStatusColor } from "../../configs/reportStatus";
 import type { reportPagination } from "../../redux/reducer/report";
 import useDebounce from "../../hooks/Debounce";
-import MapControlPannel from "../components/MapControlPannel";
 import uniqolor from "uniqolor";
-
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
@@ -50,6 +48,26 @@ const PinMarker: React.FC<PinMarkerProps> = ({
     return <Marker position={position} icon={icon} />;
 };
 
+const StaffMarker: React.FC<PinMarkerProps> = ({
+    position,
+    color,
+    size = 32,
+}) => {
+    const icon = L.divIcon({
+        className: "custom-pin-marker",
+        html: `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="${color}" width="${size}" height="${size}">
+            <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+        </svg>
+
+    `,
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size],
+    });
+
+    return <Marker position={position} icon={icon} />;
+};
+
 const DefaultIcon = L.icon({
     iconUrl,
     shadowUrl: iconShadow,
@@ -59,6 +77,9 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 // Main component
 const AssignmentPage: React.FC = () => {
+    // Staff online
+    const staffLocation = useSelector((state: RootState) => state.staff.staffLocation)
+
     // State
     const [showReportDetail, setShowReportDetail] = useState<boolean>(false);
     const [listHeight, setListHeight] = useState<number>(50); // Initial height in percentage
@@ -103,7 +124,7 @@ const AssignmentPage: React.FC = () => {
         if (newHeightPercent > 10 && newHeightPercent < 90) {
             setListHeight(newHeightPercent);
         }
-    }, []); // No dependencies needed here as it uses refs and setListHeight (functional update)
+    }, []);
 
     const handleMouseUp = useCallback(() => {
         isResizing.current = false;
@@ -141,6 +162,7 @@ const AssignmentPage: React.FC = () => {
         await reportService.getAllReport(page - 1, undefined, undefined, undefined, undefined, undefined, searchContent)
     }
 
+
     return (
         <div className="h-full w-full flex">
             {/* Online staff list */}
@@ -152,24 +174,25 @@ const AssignmentPage: React.FC = () => {
                         </svg>
                         Nhân viên kỹ thuật
                     </h1>
+
                     <span className="text-gray text-csSmall font-semibold flex items-center gap-1.5">
                         <i className="fas fa-circle text-lime"></i>
-                        10 nhân viên đang hoạt động
+                        {staffLocation.length} nhân viên đang hoạt động
                     </span>
                 </div>
 
                 <div className="h-0 flex-1 overflow-auto px-mainTwoSidePadding flex flex-col gap-5">
-                    {Array(10).fill(0).map((val, index) => {
+                    {staffLocation.map((staff, index) => {
                         return (
                             <span key={index} className="flex items-center justify-between border border-lightGray px-2.5 py-5 rounded-main">
                                 <span className="">
-                                    <h3 className="text-csNormal text-black font-bold">Nhân viên {index}</h3>
-                                    <p className="text-csSmall font-semibold text-gray">staff_id {val + index}</p>
+                                    <h3 className="text-csNormal text-black font-bold">{staff.name}</h3>
+                                    <p className="text-csSmall font-semibold text-gray">{staff.email}</p>
                                 </span>
 
                                 <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                                        <path fillRule="evenodd" d="m11.54 22.351.07.04.028.016a.76.76 0 0 0 .723 0l.028-.015.071-.041a16.975 16.975 0 0 0 1.144-.742 19.58 19.58 0 0 0 2.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 0 0-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 0 0 2.682 2.282 16.975 16.975 0 0 0 1.145.742ZM12 13.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clipRule="evenodd" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={uniqolor(staff.id).color} className="size-6">
+                                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
                                     </svg>
                                 </span>
                             </span>
@@ -190,13 +213,19 @@ const AssignmentPage: React.FC = () => {
                     >
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/">OSM</a>'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                         />
                         <MarkerClusterGroup>
                             {paginationData && paginationData.map((data) => {
                                 return <PinMarker key={data.id} color={uniqolor(data.id).color} position={[data.lat, data.lng]} />
                             })}
                         </MarkerClusterGroup>
+
+                        {staffLocation.map((staff) => {
+                            return (
+                                <StaffMarker key={staff.id} color={uniqolor(staff.id).color} position={[staff.lat, staff.lng]} />
+                            )
+                        })}
                     </MapContainer>
                 </div>
 
@@ -290,11 +319,9 @@ const AssignmentPage: React.FC = () => {
                         </table>
                     </div>
                 </div>
-
-                <MapControlPannel />
             </div>
 
-            {showReportDetail && <ReportDetail onClose={handleCloseReportDetail} report={selectedReport} />}
+            {showReportDetail && <ReportDetail onClose={handleCloseReportDetail} reportId={selectedReport?.id} />}
         </div>
     )
 }
