@@ -2,17 +2,25 @@
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
 import { ScreenSizeWarningPopup } from "../../hooks/Popup";
+import { useState } from "react";
 
 // Router DOM
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routeConfig } from "../../configs/routeConfig";
 
 // Images
 import Patern1 from "../../assets/patterns/Pattern1.png"
 import AlertMe from "../../assets/AlertMe.png"
+import authService from "../../service/auth.serv";
 
 // Main component
 const AdminLogin: React.FC = () => {
+    // Navigate
+    const navigate = useNavigate()
+
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
     const containerVariants: Variants = {
         hidden: { opacity: 0, scale: 0.95 },
         visible: {
@@ -29,6 +37,13 @@ const AdminLogin: React.FC = () => {
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+    };
+
+    const handleSubmit = async () => {
+        const signin = await authService.signin(email, password)
+        if (signin) {
+            navigate(routeConfig.admin.root)
+        }
     };
 
     return (
@@ -66,12 +81,14 @@ const AdminLogin: React.FC = () => {
                         <p className="mt-2 text-center text-lg text-gray-600">Vui lòng đăng nhập để tiếp tục.</p>
                     </motion.div>
 
-                    <motion.form variants={containerVariants} className="mt-8 space-y-6">
+                    <motion.div variants={containerVariants} className="mt-8 space-y-6">
                         <motion.div variants={itemVariants}>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                             <div className="mt-1">
                                 <input id="email" name="email" type="email" autoComplete="email" required
                                     className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-mainRed focus:border-mainRed sm:text-base transition duration-200 ease-in-out"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                         </motion.div>
@@ -81,6 +98,8 @@ const AdminLogin: React.FC = () => {
                             <div className="mt-1">
                                 <input id="password" name="password" type="password" required
                                     className="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-mainRed focus:border-mainRed sm:text-base transition duration-200 ease-in-out"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                         </motion.div>
@@ -88,15 +107,12 @@ const AdminLogin: React.FC = () => {
                             <button
                                 type="submit"
                                 className="btn w-full flex items-center gap-2.5 justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-xl font-bold text-white bg-mainRed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mainRed transition duration-300 ease-in-out transform hover:-translate-y-0.5"
+                                onClick={handleSubmit}
                             >
-
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
-                                </svg>
-                                Gửi mail xác nhận
+                                Xác nhận
                             </button>
                         </motion.div>
-                    </motion.form>
+                    </motion.div>
                 </motion.div>
             </div>
 
