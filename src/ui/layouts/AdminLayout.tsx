@@ -4,7 +4,7 @@ import { lazy, useRef, useState, useEffect } from "react"
 import { ScreenSizeWarningPopup } from "../../hooks/Popup"
 
 // Router DOM
-import { Link, Route, Routes, useLocation } from "react-router-dom"
+import { Link, Route, Routes, useLocation, useNavigate } from "react-router-dom"
 import { routeConfig } from "../../configs/routeConfig"
 
 // Images
@@ -34,13 +34,21 @@ const AdminLayout: React.FC = () => {
     // Admin
     const adminData = useSelector((state: RootState) => state.admin.profile)
 
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken")
+        localStorage.removeItem("refreshToken")
+        navigate(routeConfig.auth.root)
+    }
+
     // Location path
     const location = useLocation()
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState<boolean>(false)
 
     const userDropdownItems = [
-        { name: "Thông tin cá nhân", func: () => { console.log("View Profile") } },
-        { name: "Đăng xuất", func: () => { console.log("Logout user") } },
+        // { name: "Thông tin cá nhân", func: () => { console.log("View Profile") } },
+        { name: "Đăng xuất", func: handleLogout },
     ];
 
     // Nav

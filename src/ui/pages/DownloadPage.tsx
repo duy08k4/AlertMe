@@ -34,6 +34,14 @@ const DownloadPage: React.FC = () => {
                         <p className="text-gray text-lg md:text-xl font-semibold">v1.0.0</p>
                     </span>
 
+                    <p className="w-fit flex gap-2 bg-mainRedRGB text-mainRed font-medium px-3.5 py-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-6 stroke-mainRed">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                        </svg>
+
+                        Sản phẩm này chỉ phục vụ cho môn học
+                    </p>
+
                     <p className="text-base md:text-lg text-gray text-justify">
                         AlertMe là ứng dụng di động cho phép người dân dễ dàng báo cáo các sự cố giao thông trực tiếp đến đơn vị xử lý. Với giao diện thân thiện, bạn có thể gửi báo cáo kèm hình ảnh, vị trí chính xác và theo dõi tiến độ xử lý. Ngoài ra, tính năng SOS khẩn cấp giúp bạn gửi tín hiệu cầu cứu nhanh chóng khi gặp nguy hiểm. Hãy cùng AlertMe chung tay xây dựng một thành phố thông minh, an toàn và hiện đại hơn.
                     </p>
@@ -41,13 +49,13 @@ const DownloadPage: React.FC = () => {
                     <span className="flex flex-col gap-2.5 text-base md:text-lg text-black">
                         <p><b>Đối tượng phục vụ:</b> Người dân và Nhân viên kỹ thuật</p>
                         <p><b>Hệ điều hành:</b> Android</p>
-                        <p><b>Ngày phát hành:</b> 00/00/0000</p>
+                        <p><b>Ngày phát hành:</b> 05/12/2025</p>
                         <span>
                             <p className="text-base md:text-lg text-black"><b>Chức năng chung:</b></p>
                             <ul className="list-disc px-10 text-base md:text-lg leading-[2] font-semibold text-gray">
                                 <li>Gửi báo cáo sự cố</li>
                                 <li>Gửi tín hiệu SOS</li>
-                                <li>Xem các vị trí xảy ra sự cố</li>
+                                <li>Xem các báo sự cố</li>
                             </ul>
                         </span>
                     </span>
@@ -57,7 +65,7 @@ const DownloadPage: React.FC = () => {
                             <i className="fa-solid fa-download"></i>
                             Tải ứng dụng
                         </Link>
-                        <Link to="/" className="bg-mainDark w-full sm:w-auto">
+                        <Link to="https://alert-me-mobile.vercel.app" className="bg-mainDark w-full sm:w-auto">
                             <i className="fas fa-globe"></i>
                             Truy cập AlertMe Web (Người dân)
                         </Link>

@@ -121,7 +121,7 @@ const AdminLogin: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
                 className=" absolute bottom-5 left-twoSidePadding flex justify-center py-5">
-                <p className="font-semibold text-mainDark text-csNormal text-center">© 2025 Nhóm 6. Làm bằng ♥ cho môn Đồ Án GIS.</p>
+                <p className="font-semibold text-mainDark text-csNormal text-center">© 2025 Nhóm 6. Làm bằng ♥ cho môn Đồ Án GIS. Trường Đại Học Nông Lâm Thành Phố Hồ Chí Minh</p>
             </motion.span>
         </div>
     );
