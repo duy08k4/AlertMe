@@ -4,6 +4,7 @@ import { lazy } from "react"
 // Router DOM
 import { Routes, Route } from "react-router-dom"
 import { routeConfig } from "./configs/routeConfig"
+import { ToastContainer } from "react-toastify"
 
 // Components
 const LandingLayout = lazy(() => import("./ui/layouts/LandingLayout"))
@@ -15,7 +16,7 @@ const ReportViewLayout = lazy(() => import("./ui/layouts/ReportViewLayout"))
 // Main component
 function App() {
   return (
-    <div className="h-full w-full bg-white">
+    <div className="relative h-full w-full bg-white">
       <Routes>
         <Route path={routeConfig.landing.root + "*"} element={<LandingLayout />} />
         <Route path={routeConfig.admin.root + "/*"} element={<AdminLayout />} />
@@ -23,6 +24,7 @@ function App() {
         <Route path={routeConfig.reportview.root} element={<ReportViewLayout />} />
         <Route path={routeConfig.auth.endpoint.not_found} element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </div>
   )
 }
