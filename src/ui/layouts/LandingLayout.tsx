@@ -35,7 +35,7 @@ const LandingLayout = () => {
         { path: routeConfig.landing.root, name: "Trang chủ" },
         { path: routeConfig.landing.endpoint.download, name: "Tải xuống" },
         { path: routeConfig.landing.endpoint.team, name: "Đội ngũ phát triển" },
-        { path: routeConfig.landing.endpoint.contact, name: "Liên hệ" }
+        // { path: routeConfig.landing.endpoint.contact, name: "Liên hệ" }
     ])
     return (
         <div className="relative min-h-screen w-full flex flex-col px-twoSidePadding max-md:px-2.5">
@@ -66,7 +66,7 @@ const LandingLayout = () => {
             </div>
 
             <div className="flex justify-center border-t border-lightGray py-5">
-                <p className="font-semibold text-mainDark text-csNormal text-center max-md:px-4 max-md:text-csSmall">© 2025 Nhóm 6. Làm bằng ♥ cho môn Đồ Án GIS.</p>
+                <p className="font-semibold text-mainDark text-csNormal text-center max-md:px-4 max-md:text-csSmall">© 2025 Nhóm 6. Làm bằng ♥ cho môn Đồ Án GIS. Trường Đại Học Nông Lâm Thành Phố Hồ Chí Minh</p>
             </div>
         </div>
     )

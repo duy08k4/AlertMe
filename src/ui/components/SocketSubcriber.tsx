@@ -67,7 +67,7 @@ const SocketSubcriber = () => {
                             id: staffData[0].id,
                             name: staffData[0].name,
                             email: staffData[0].email,
-                            haveTask: staffData[0].assigned_tasks[0].status !== 'completed' ? true : false,
+                            haveTask: staffData[0].assigned_tasks[0] && staffData[0].assigned_tasks[0].status !== 'completed' ? true : false,
                             lat: data.lat,
                             lng: data.lng
                         }

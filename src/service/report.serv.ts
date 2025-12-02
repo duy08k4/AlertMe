@@ -27,8 +27,9 @@ export class reportService {
             return false
         }
 
+        let pending
         try {
-            const pending = toastConfig({
+            pending = toastConfig({
                 pending: true,
                 toastMessage: `Đang tải dữ liệu trang ${page}`
             })
@@ -76,6 +77,7 @@ export class reportService {
                 toastMessage: 'Không tìm thấy dữ liệu'
             })
 
+            toast.dismiss(pending)
             console.error(error)
             return false
         }

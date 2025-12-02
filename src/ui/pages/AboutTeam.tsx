@@ -1,10 +1,15 @@
 import type React from "react";
 import { motion, type Variants } from "framer-motion";
-import adminImage from '../../assets/patterns/admin.png';
-import feLeadImage from '../../assets/patterns/reporter.png';
-import beLeadImage from '../../assets/patterns/staff.png';
-import memberImage1 from '../../assets/patterns/Pattern1.png';
-import memberImage2 from '../../assets/patterns/Pattern2.png';
+
+import AhTun from "../../assets/avt/AnhTuan.jpg"
+import TngDy from "../../assets/avt/TuongDuy.jpg"
+import PuTog from "../../assets/avt/PhuTrong.jpg"
+
+import QhNhu from "../../assets/avt/QhNhu.png"
+import TyAn from "../../assets/avt/TyAn.jpg"
+import TrongLien from "../../assets/avt/TrongLien.jpg"
+import TramDuong from "../../assets/avt/TramDuong.jpg"
+import HuuLy from "../../assets/avt/HuuLy.jpg"
 
 interface Member {
     name: string;
@@ -21,23 +26,23 @@ const leadershipTeam: Member[] = [
         studentId: "22166097",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: adminImage,
-        role: "Quản lý dự án - Thiết kế giao diện",
+        imageUrl: AhTun,
+        role: "Quản lý dự án",
     },
     {
         name: "Trần Bá Tường Duy",
         studentId: "22166013",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: feLeadImage,
-        role: "Trưởng nhóm Frontend - Phát triển hệ thống",
+        imageUrl: TngDy,
+        role: "Trưởng nhóm Frontend",
     },
     {
         name: "Đỗ Phú Trọng",
         studentId: "22166090",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: beLeadImage,
+        imageUrl: PuTog,
         role: "Trưởng nhóm Backend",
     },
 ];
@@ -48,7 +53,7 @@ const memberTeam: Member[] = [
         studentId: "22166067",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: memberImage1,
+        imageUrl: QhNhu,
         role: "Thiết kế giao diện",
     },
     {
@@ -56,7 +61,7 @@ const memberTeam: Member[] = [
         studentId: "22166001",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: memberImage2,
+        imageUrl: TyAn,
         role: "Thiết kế giao diện",
     },
     {
@@ -64,7 +69,7 @@ const memberTeam: Member[] = [
         studentId: "22166042",
         className: "DH22HM",
         major: "Hệ thống thông tin",
-        imageUrl: memberImage1,
+        imageUrl: TrongLien,
         role: "Phát triển hệ thống",
     },
     {
@@ -72,7 +77,7 @@ const memberTeam: Member[] = [
         studentId: "21166168",
         className: "DH21HM",
         major: "Hệ thống thông tin",
-        imageUrl: memberImage2,
+        imageUrl: TramDuong,
         role: "Thiết kế giao diện",
     },
     {
@@ -80,7 +85,7 @@ const memberTeam: Member[] = [
         studentId: "21166142",
         className: "DH21HM",
         major: "Hệ thống thông tin",
-        imageUrl: memberImage1,
+        imageUrl: HuuLy,
         role: "Phát triển hệ thống",
     },
 ];
@@ -93,16 +98,11 @@ const containerVariants: Variants = {
     }
 };
 
-const cardVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } }
-};
-
 // MemberCard is now a simple presentational component
 const MemberCard: React.FC<{ member: Member }> = ({ member }) => {
     return (
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out">
-            <img src={member.imageUrl} alt={`Hình ảnh của ${member.name}`} className="w-full h-56 object-cover object-center" />
+        <div className="mainShadow bg-white rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 border-[0.5px] border-lightGray ease-in-out">
+            <img src={member.imageUrl} alt={`Hình ảnh của ${member.name}`} className="w-full h-56 object-contain object-center"/>
             <div className="p-6">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">{member.name}</h3>
                 <p className="text-lg font-semibold text-indigo-600 mb-3">{member.role}</p>
@@ -151,9 +151,9 @@ const AboutTeam: React.FC = () => {
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center"
                     >
                         {leadershipTeam.map((member) => (
-                            <motion.div key={member.studentId} variants={cardVariants}>
+                            <div key={member.studentId}>
                                 <MemberCard member={member} />
-                            </motion.div>
+                            </div>
                         ))}
                     </motion.div>
                 </div>
@@ -168,9 +168,9 @@ const AboutTeam: React.FC = () => {
                         className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-4"
                     >
                         {memberTeam.map((member) => (
-                            <motion.div key={member.studentId} variants={cardVariants}>
+                            <div key={member.studentId}>
                                 <MemberCard member={member} />
-                            </motion.div>
+                            </div>
                         ))}
                     </motion.div>
                 </div>
