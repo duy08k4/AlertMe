@@ -171,17 +171,22 @@ const ReportDetail: React.FC<ReportDetailProps> = ({ onClose, reportId }) => {
                         {/* Assigned Staff */}
                         <div className="relative flex-1 h-0 overflow-auto">
                             <div className="sticky top-0 left-0 bg-white flex items-center-safe justify-between border-t py-5">
-                                <h3 className="text-xl font-bold text-gray-800">Nhân viên đang ở gần</h3>
+                                <h3 className="text-xl font-bold text-gray-800">
+                                    Nhân viên 
+                                    {reportDetail && reportDetail.status != 'resolved' && reportDetail.status != 'closed' ? " đang ở gần" : " đã tham gia"}
+                                </h3>
 
-                                <span className="flex items-center-safe gap-2.5">
-                                    <p className="text-csSmall font-medium">Khoảng cách:</p>
-                                    <select value={distanceSelection} onChange={(e) => { setDistanceSelection(e.target.value) }} className="mainshadow border-[0.5px] border-gray">
-                                        <option value="kc1">1000m</option>
-                                        <option value="kc2">3000m</option>
-                                        <option value="kc3">5000m</option>
-                                        <option value="kc4">Không giới hạn</option>
-                                    </select>
-                                </span>
+                                {reportDetail && reportDetail.status != 'resolved' && reportDetail.status != 'closed' && (
+                                    <span className="flex items-center-safe gap-2.5">
+                                        <p className="text-csSmall font-medium">Khoảng cách:</p>
+                                        <select value={distanceSelection} onChange={(e) => { setDistanceSelection(e.target.value) }} className="mainshadow border-[0.5px] border-gray">
+                                            <option value="kc1">1000m</option>
+                                            <option value="kc2">3000m</option>
+                                            <option value="kc3">5000m</option>
+                                            <option value="kc4">Không giới hạn</option>
+                                        </select>
+                                    </span>
+                                )}
                             </div>
 
                             <div className="space-y-3 pr-2 flex-1">

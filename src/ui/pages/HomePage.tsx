@@ -51,13 +51,17 @@ const HomePage: React.FC = () => {
     const informationOfSystem = useRef<information[]>([
         {
             target: "Người Dân",
-            des: "Khi có sự cố giao thông xảy ra, người dân có thể thực hiện gửi một báo cáo sự cố đến quản trị viên hệ thống thông qua ứng dụng điện thoại.",
+            des: `
+                Khi có sự cố xảy ra, người dân sẽ thực hiện gửi một báo cáo với vị trí và hình ảnh hiện trường đến hệ thống thông qua ứng dụng điện thoại.
+                Hệ thống sẽ tiếp nhận được báo cáo của người dân theo thời gian thực và nhanh chóng điều phối các nhân viên đến khắc phục sự cố.
+            `,
             img: Repoter_img,
             btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: routeConfig.landing.endpoint.download
         },
         {
             target: "Quản Trị Viên",
             des: `
+                Quản trị viên là người nhận các báo cáo sự cố giao thông từ người dân và điều phối các nhân viên kỹ thuật thông qua trang quản lý.
                 Khi người dân thực hiện gửi một báo cáo sự cố, hệ thống AlertMe sẽ nhận được báo cáo của người dân theo thời gian thực. 
                 Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến khắc phục sự cố dựa trên tọa độ được cung cấp trong báo cáo.
             `,
@@ -67,8 +71,9 @@ const HomePage: React.FC = () => {
         {
             target: "Nhân Viên Kỹ Thuật",
             des: `
-                Nhân viên kỹ thuật sẽ nhận sự điều phối từ quản trị viên và đến hiện trường để xử lý sự cố trực tiếp dựa trên tọa độ được cung cấp trong báo cáo.
-                Sau khi sự cố đã được khắc phục, nhân viên kỹ thuật sẽ phản hồi kết quả về hệ thống.
+                Nhân viên kỹ thuật là người nhận sự điều phối của quản trị viên và cũng là người trực tiếp xử lý sự cố được báo cáo.
+                Nhân viên kỹ thuật sẽ nhận sự điều phối từ quản trị viên và đến hiện trường dựa trên tọa độ được cung cấp trong báo cáo để xử lý sự cố.
+                Sau khi sự cố đã được khắc phục, nhân viên kỹ thuật sẽ phản hồi kết quả về hệ thống một cách nhanh chóng thông qua ứng dụng điện thoại.
             `,
             img: Staff_img,
             btn_content: "Tải ứng dụng", btn_icon_class: "fa-solid fa-download", path: routeConfig.landing.endpoint.download
@@ -78,17 +83,17 @@ const HomePage: React.FC = () => {
     const mainFeats = useRef<feat[]>([
         {
             name: "Gửi báo cáo thời gian thực",
-            short_des: "Thực hiện gửi báo cáo sự cố với tọa độ và hình ảnh sự cố giao thông",
+            short_des: "Thực hiện gửi báo cáo sự cố với tọa độ và hình ảnh sự cố giao thông theo thời gian thực",
             class_icon: "fa-solid fa-map-pin", color: "text-[#f25255]", rgb_color: "bg-[rgba(242,82,85,0.2)]"
         },
         {
-            name: "Quản lý báo cáo hiệu quả",
-            short_des: "Tiếp nhận báo cáo và điều phối nhân viên khắc phục sự cố một cách nhanh chóng",
+            name: "Tiếp nhận báo cáo nhanh chóng",
+            short_des: "Tiếp nhận báo cáo và điều phối nhân viên khắc phục sự cố một cách nhanh chóng nhờ cơ chế thời gian thực",
             class_icon: "fa-solid fa-gear", color: "text-[#f25255]", rgb_color: "bg-[rgba(242,82,85,0.2)]"
         },
         {
-            name: "Bản đồ trực quan",
-            short_des: "Hiển thị sự cố trên bản đồ với màu sắc, biểu tượng phân loại, dễ quan sát và tìm kiếm",
+            name: "Khắc phục sự cố hiệu quả",
+            short_des: "Biết vị trí xảy ra sự cố và cập nhật kết quả sự cố nhanh chóng theo thời gian thực",
             class_icon: "fa-solid fa-map", color: "text-[#f25255]", rgb_color: "bg-[rgba(242,82,85,0.2)]"
         }
     ])
@@ -106,8 +111,11 @@ const HomePage: React.FC = () => {
                 <h1 className="text-black font-semibold text-5xl tracking-wider max-md:text-3xl max-md:px-4">Hệ thống báo cáo sự cố giao thông</h1>
                 <p className="text-gray text-csBig max-md:text-base max-md:px-4">Nền tảng giúp người dân báo cáo sự cố giao thông và theo dõi tình hình trực tiếp trên bản đồ.</p>
                 <span className="flex gap-5 items-center mt-10 group [&>a]:text-csNormal [&>a]:font-semibold [&>a]:h-[50px] [&>a]:flex [&>a]:items-center [&>a]:justify-center [&>a]:px-10 [&>a]:rounded-main max-sm:flex-col max-sm:px-4 max-sm:w-full">
-                    <Link to={routeConfig.reportview.root} className="bg-mainRed text-white max-sm:w-full">Xem bản đồ sự cố</Link>
-                    <Link to={routeConfig.auth.root} className="mainShadow gap-2.5 bg-white max-sm:w-full">
+                    <Link to={routeConfig.landing.endpoint.download} className="bg-mainRed text-white max-sm:w-full">
+                        <i className="fa-solid fa-download"></i>
+                        Tải AlertMe
+                    </Link>
+                    <Link to={routeConfig.auth.root} className="mainShadow gap-2.5 bg-white border-[0.5px] border-lightGray max-sm:w-full">
                         <i className="far fa-window-restore"></i>
                         Quản lý hệ thống
                     </Link>
@@ -124,8 +132,9 @@ const HomePage: React.FC = () => {
                         Giới thiệu hệ thống
                     </h1>
                     <p className="w-[80%] text-csBig text-gray max-lg:w-full max-md:text-csSmall text-justify">
-                        AlertMe là một hệ thống báo cáo sự cố giao thông theo thời gian thực. Hệ thống được phát triển để tiếp nhận các báo cáo sự cố liên quan đến giao thông với tọa độ và hình ảnh cụ thể.
-                        Quản trị viên sẽ điều phối các nhân viên kỹ thuật đến để khắc phục sự cố và phản hồi kết quả về cho quản trị viên.
+                        AlertMe là một hệ thống báo cáo sự cố giao thông trên địa bàn phường Linh Xuân, thành phố Thủ Đức. Hệ thống được phát triển để tiếp nhận các báo cáo sự cố giao thông theo thời gian thực với tọa độ và hình ảnh cụ thể.
+                        Hệ thống sẽ thông báo mỗi khi nhận được báo cáo mới, quản trị viên sẽ điều phối các nhân viên kỹ thuật đến để khắc phục sự cố dựa trên vị trí của họ. Tính năng phản hồi nhanh theo thời gian thực sẽ giúp cho nhân viên cập
+                        nhật tình trạng sự cố đến quản trị viên một cách nhanh chóng.
                     </p>
                 </div>
                 <motion.div
@@ -157,7 +166,7 @@ const HomePage: React.FC = () => {
                 <div className="flex flex-col items-center gap-2.5">
                     <h1 className="text-black font-semibold text-4xl tracking-wider capitalize flex items-center gap-5 max-md:text-2xl max-md:justify-center">
                         <i className="fa-solid fa-boxes-stacked"></i>
-                        Tính năng nổi bật
+                        Lợi Ích Của Hệ Thống
                     </h1>
                     <p className="text-csNormal text-gray font-semibold text-center max-md:text-csSmall">Giúp cho việc báo cáo và xử lý sự cố giao thông trở nên dễ dàng hơn</p>
                 </div>

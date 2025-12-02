@@ -13,8 +13,10 @@ export default class authService {
             return false
         }
 
+        let pending
+
         try {
-            const pending = toastConfig({
+            pending = toastConfig({
                 pending: true,
                 toastMessage: 'Vui lòng chờ'
             })
@@ -51,6 +53,7 @@ export default class authService {
                 toastMessage: 'Không tìm thấy dữ liệu'
             })
             console.error(error)
+            toast.dismiss(pending)
             return false
         }
     }
@@ -64,8 +67,10 @@ export default class authService {
             return false
         }
 
+        let pending
+
         try {
-            const pending = toastConfig({
+            pending = toastConfig({
                 pending: true,
                 toastMessage: 'Đang kiểm tra phiên đăng nhập'
             })
@@ -111,6 +116,7 @@ export default class authService {
                     toastMessage: 'Phiên đăng nhập hết hạn'
                 })
             }
+            toast.dismiss(pending)
             console.log(error)
             return false
         }
