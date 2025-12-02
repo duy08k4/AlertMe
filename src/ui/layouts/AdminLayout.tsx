@@ -82,7 +82,7 @@ const AdminLayout: React.FC = () => {
                 <span className="flex items-center gap-20">
                     <span className="flex items-center gap-2">
                         <img src={AlertMe} className="h-[40px]" />
-                        <h1 className="text-black text-csBig uppercase font-semibold">Admin</h1>
+                        <h1 className="text-black text-csBig uppercase font-bold">Admin</h1>
                     </span>
 
                     <span className="flex gap-10">
