@@ -1,13 +1,13 @@
 // src/ui/components/ReportDetail.tsx
 
 import type React from "react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { updateReportStatus, type reportPagination } from "../../redux/reducer/report";
 import { toastConfig } from "../../configs/toastConfig";
 import { reportStatus, reportStatusColor } from "../../configs/reportStatus";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
-import { setStaffStatus, type staffShortData } from "../../redux/reducer/staff";
+import { setStaffStatus } from "../../redux/reducer/staff";
 import HarversineFormula from "../../modules/HarversineFormula";
 import { adminService } from "../../service/admin.serv";
 import { reportService } from "../../service/report.serv";

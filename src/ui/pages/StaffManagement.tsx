@@ -1,7 +1,7 @@
 // Import libraries
 import type React from "react";
 import { useEffect, useState } from "react";
-import { Download, RefreshCw, Search, ChevronDown, ChevronUp, Users, UserCheck, UserPlus, FileText, ArrowLeftCircle, ArrowRightCircle, UserRound, X, Lock, Trash2 } from 'lucide-react';
+import { RefreshCw, Search, ArrowLeftCircle, ArrowRightCircle, X, Trash2 } from 'lucide-react';
 import StaffSignForm from "../components/StaffSignForm";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";

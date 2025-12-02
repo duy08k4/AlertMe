@@ -17,8 +17,6 @@ const SocketSubcriber = () => {
 
     // Subscribe new report - sos report
     const reportPage = useSelector((state: RootState) => state.report.page)
-    const reportMaxPage = useSelector((state: RootState) => state.report.maxPage)
-    const reportAmount = useSelector((state: RootState) => state.report.amountReports)
 
     const dispatch = useDispatch()
 
