@@ -260,7 +260,7 @@ const AssignmentPage: React.FC = () => {
                                     </svg>
                                 </button>
 
-                                <p>Trang {page}/{maxPage}</p>
+                                <p>Trang {page} / {maxPage}</p>
 
                                 <button className="btn px-2.5" onClick={nextPage} disabled={page === maxPage}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -305,7 +305,7 @@ const AssignmentPage: React.FC = () => {
                                         </td>
 
                                         <td className="text-black px-6 py-4 min-w-1/8 max-w-[350px] truncate text-center">
-                                            {(new Date(data.updated_at).getTime() - new Date(data.created_at).getTime()) / 1000 / 60 / 60}
+                                            {((new Date(data.updated_at).getTime() - new Date(data.created_at).getTime()) / 1000 / 60 / 60).toFixed(2)}
                                         </td>
 
                                         <td className="text-black px-6 py-4 min-w-1/8 max-w-[350px] truncate">

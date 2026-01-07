@@ -185,7 +185,10 @@ export class staffService {
                         toastMessage: `Đã thêm ${name}`
                     })
 
-                    const staffData = data.staff as staffData
+                    const staffData = {
+                        ...data.staff,
+                        name
+                    } as staffData
                     store.dispatch(addNewStaff(staffData))
                     // dispatch
                     return true

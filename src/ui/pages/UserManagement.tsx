@@ -115,11 +115,12 @@ const UserManagement: React.FC = () => {
                                     <th className="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider">Ngày tham gia</th>
                                 </tr>
                             </thead>
+
                             <tbody className="divide-y divide-gray-200">
                                 {paginationData && paginationData.map((user, index) => (
                                     <tr key={user.id} className="hover:bg-gray-50 cursor-pointer transition-colors" onClick={() => handleRowClick(user)}>
                                         <td className="p-3 whitespace-nowrap">{(index + 1) + (page - 1) * Math.ceil(amountUser / maxPage)}</td>
-                                        <td className="p-3 whitespace-nowrap">{user.username}</td>
+                                        <td className="p-3 whitespace-nowrap">{user.name}</td>
                                         <td className="p-3 whitespace-nowrap">{user.email}</td>
                                         <td className="p-3 whitespace-nowrap">{user.phone_number ? user.phone_number : "Chưa cập nhật"}</td>
                                         <td className="p-3 whitespace-nowrap">{user.role.name}</td>
@@ -143,7 +144,7 @@ const UserManagement: React.FC = () => {
                             </div>
 
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-800">{selectedUser.username}</h2>
+                                <h2 className="text-2xl font-bold text-gray-800">{selectedUser.name}</h2>
                                 <p className="text-md text-gray-500">{selectedUser.role.name}</p>
                             </div>
 
