@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { X, UserPlus, ImageUp } from 'lucide-react';
 import { toastConfig } from '../../configs/toastConfig';
 import { staffService } from '../../service/staff.serv';
+import { toast } from 'react-toastify';
 
 interface StaffSignFormProps {
     onClose: () => void;
@@ -74,6 +75,11 @@ const StaffSignForm: React.FC<StaffSignFormProps> = ({ onClose }) => {
             return;
         }
 
+        let pending
+        pending = toastConfig({
+            toastMessage: "Đang thêm nhân viên",
+            pending: true
+        })
         const imgUrl = await staffService.uploadImage(profilePic)
 
         if (imgUrl) {
@@ -81,7 +87,9 @@ const StaffSignForm: React.FC<StaffSignFormProps> = ({ onClose }) => {
                 imgUrl, formData.name, formData.username, formData.email, formData.password,
                 formData.phone_number, formData.address, formData.city, formData.state, formData.postal_code, formData.country
             )
+            toast.dismiss(pending)
         } else {
+            toast.dismiss(pending)
             toastConfig({
                 toastType: 'error',
                 toastMessage: 'Không thể thêm nhân viên'

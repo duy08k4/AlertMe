@@ -45,6 +45,7 @@ export type staffData = {
   id: string,
   email: string,
   username: string,
+  name: string,
   is_new_user: boolean,
   role: {
     id: string,
