@@ -9,6 +9,7 @@ import { addNewReport, updateReportStatus } from "../../redux/reducer/report"
 import { addStaffLoc, removeStaffLoc, setStaffStatus, type staffShortData } from "../../redux/reducer/staff"
 import { staffService } from "../../service/staff.serv"
 import type { ReportStatusKey } from "../../configs/reportStatus"
+import { Bounce, toast } from "react-toastify"
 
 webSocketManagerAlert.connect()
 webSocketManagerTracking.connect()
@@ -44,10 +45,17 @@ const SocketSubcriber = () => {
     useEffect(() => { // Sos report
         if (webSocketManagerAlert.isConnected()) {
             webSocketManagerAlert.on("sosAlert", () => {
-                toastConfig({
-                    toastType: 'info',
-                    toastMessage: 'Có báo cáo SOS mới'
-                })
+                toast.error('Có tín hiện SOS', {
+                    position: "top-right",
+                    autoClose: 20000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    transition: Bounce,
+                });
             })
         }
 
@@ -77,7 +85,7 @@ const SocketSubcriber = () => {
             })
         }
 
-        return webSocketManagerTracking.off("coordinateUpdate", () => {  })
+        return webSocketManagerTracking.off("coordinateUpdate", () => { })
     }, [webSocketManagerTracking.isConnected()])
 
     // Staff disconnect
@@ -89,7 +97,7 @@ const SocketSubcriber = () => {
             })
         }
 
-        return webSocketManagerTracking.off("staffDisconnected", () => {  })
+        return webSocketManagerTracking.off("staffDisconnected", () => { })
     }, [webSocketManagerTracking.isConnected()])
 
     // Broadcast task completion to everyone

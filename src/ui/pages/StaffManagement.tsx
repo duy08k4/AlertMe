@@ -131,7 +131,7 @@ const StaffManagement: React.FC = () => {
                                     return (
                                         <tr key={index} className="hover:bg-gray-50 cursor-pointer transition-colors" onClick={() => { handleRowClick(staff) }}>
                                             <td className="p-3 whitespace-nowrap">{(index + 1) + (page - 1) * Math.ceil(amountStaff / maxPage)}</td>
-                                            <td className="p-3 whitespace-nowrap">{staff.username}</td>
+                                            <td className="p-3 whitespace-nowrap">{staff.name}</td>
                                             <td className="p-3 whitespace-nowrap">{staff.email}</td>
                                             <td className="p-3 whitespace-nowrap">{staff.phone_number || "___"}</td>
                                             <td className="p-3 whitespace-nowrap">{new Date(staff.created_at).toLocaleString("vi-VN")}</td>
@@ -152,12 +152,12 @@ const StaffManagement: React.FC = () => {
                     <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl transform transition-all" onClick={e => e.stopPropagation()}>
                         {/* Header */}
                         <div className="bg-white py-6 px-8 rounded-t-xl border-b border-gray-200 flex items-center space-x-6 relative">
-                            <div className="mainShadow h-[100px] aspect-square rounded-full">
-                                <img src={selectedStaff.profilepic} alt={selectedStaff.username} loading="lazy" />
+                            <div className="mainShadow h-[100px] aspect-square rounded-full overflow-hidden">
+                                <img src={selectedStaff.profilepic} alt={selectedStaff.username} loading="lazy" className="object-cover object-center" />
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <h2 className="text-2xl font-bold text-gray-800 leading-relaxed">Nhân viên: {selectedStaff.username}</h2>
+                                <h2 className="text-2xl font-bold text-gray-800 leading-relaxed">Nhân viên: {selectedStaff.name}</h2>
                                 <p className="text-csSmall text-gray font-medium"><b>Ngày tham gia:</b> {new Date(selectedStaff.created_at).toLocaleString("vi-VN")}</p>
 
                                 <span className="h-fit w-full flex items-center-safe gap-10">
@@ -176,37 +176,37 @@ const StaffManagement: React.FC = () => {
                             <h3 className="text-xl font-bold text-gray-800 mb-6">Thông tin chi tiết</h3>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-7 text-gray-800">
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Email</span>
                                     <p className="font-medium">{selectedStaff.email}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Số điện thoại</span>
                                     <p className="font-medium">{selectedStaff.phone_number ? selectedStaff.phone_number : "Chưa cung cấp"}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Địa chỉ</span>
                                     <p className="font-medium">{selectedStaff.address ? selectedStaff.address : "Chưa cung cấp"}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Thành phố</span>
                                     <p className="font-medium">{selectedStaff.city ? selectedStaff.city : "Chưa cung cấp"}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Tỉnh/Khu vực</span>
                                     <p className="font-medium">{selectedStaff.state ? selectedStaff.state : "Chưa cung cấp"}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Mã bưu điện</span>
                                     <p className="font-medium">{selectedStaff.postal_code ? selectedStaff.postal_code : "Chưa cung cấp"}</p>
                                 </div>
 
-                                <div className="flex flex-col">
+                                <div className="flex flex-col gap-1.5">
                                     <span className="text-sm font-medium text-gray-500">Quốc gia</span>
                                     <p className="font-medium">{selectedStaff.country ? selectedStaff.country : "Chưa cung cấp"}</p>
                                 </div>
